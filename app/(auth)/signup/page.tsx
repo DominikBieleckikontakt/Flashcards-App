@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 
 import background from "@/public/backgrounds/login_bg.jpg";
-import LoginText from "@/components/login-page/login-text";
-import LoginForm from "@/components/login-page/login-form";
+import SignupText from "@/components/signup-page/signup-text";
+import SignupForm from "@/components/signup-page/signup-form";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
     <>
       <Image
@@ -14,14 +14,14 @@ const LoginPage = () => {
         layout="fill"
         className="object-cover"
       />
-      <main className="h-screen flex justify-center items-center mx-8">
+      <main className="h-screen flex justify-center items-center lg:mx-8">
         <div className="grid lg:grid-cols-2 gap-24">
-          <LoginText />
-          <LoginForm />
+          <SignupText />
+          <SignupForm />
         </div>
       </main>
     </>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

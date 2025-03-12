@@ -5,15 +5,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import type { FieldError } from "react-hook-form";
-import Input from "./input";
+import Input from "../input";
 import Button from "../button";
 import Link from "next/link";
 
 const loginFormSchema = z.object({
   email: z
     .string()
-    .min(1, { message: "Its for sure too short for an email!" })
+    .min(3, { message: "Its for sure too short for an email!" })
     .email({ message: "Invalid email address" }),
   password: z
     .string()
@@ -28,9 +27,9 @@ const LoginForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting, isSubmitted, isDirty, isValid },
+    formState: { errors, isSubmitting, isSubmitted, isValid },
   } = useForm({
-    mode: "onChange",
+    mode: "onBlur",
     resolver: zodResolver(loginFormSchema),
   });
 
@@ -67,9 +66,9 @@ const LoginForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting || (!isValid && true)}
-            styles=" disabled:opacity-50 disabled:hover:bg-secondary bg-secondary hover:bg-secondary/50 w-1/2"
+            styles="disabled:opacity-50 disabled:hover:bg-secondary bg-secondary hover:bg-secondary/50 w-full"
           >
-            Send
+            Log in
           </Button>
         </div>
       </form>
@@ -77,8 +76,8 @@ const LoginForm = () => {
         <p className="text-center">
           You don't have an account?{" "}
           <Link
-            href="/register"
-            className="text-primary hover:text-accent duration-300"
+            href="/signup"
+            className="text-primary hover:text-accent duration-300 font-semibold"
           >
             Sign Up
           </Link>{" "}

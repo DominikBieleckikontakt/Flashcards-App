@@ -2,13 +2,14 @@ import React from "react";
 
 import { Heart, Infinity, User } from "lucide-react";
 
-const LoginText = () => {
+const SignupText = () => {
   return (
     <div className="text-text z-10 space-y-10 bg-black/10 backdrop-blur-sm p-8 rounded-3xl">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">FlashApp</h1>
         <p className="text-base">
-          Welcome back! Log in to access your account.
+          Hello! You are first time here, aren't you? Sign up to access your
+          account.
         </p>
       </div>
       <ul className="space-y-8">
@@ -44,4 +45,4 @@ const LoginText = () => {
   );
 };
 
-export default LoginText;
+export default SignupText;
