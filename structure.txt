@@ -1,0 +1,13 @@
+header => navbar, searchbar, login
+
+main page => landing page
+flashcards => flashcards grid, filters on the top, pagination applied
+when login => possibility to add flashcards
+
+
+Database:
+User: CreatedFlashcards, FavoriteFlashcards, Followers
+Flashcards: CreatorId, Flashcard
+Flashcard: DefaultValue, Meaning
+
+
