@@ -51,9 +51,10 @@ const Input = ({
             type === "password" ? (showPassword ? "text" : "password") : type
           }
           placeholder={placeholder}
+          autoComplete="off"
           {...registerProps}
           aria-invalid={ariaInvalid}
-          className={`bg-white/10 backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary ${
+          className={`bg-white/10 backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary autofill:bg-red-500! ${
             icon && "pl-10"
           }`}
         />

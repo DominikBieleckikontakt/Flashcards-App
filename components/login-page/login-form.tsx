@@ -8,12 +8,12 @@ import { useForm } from "react-hook-form";
 import Input from "../input";
 import Button from "../button";
 import Link from "next/link";
+import { Lock, Mail } from "lucide-react";
 
 const loginFormSchema = z.object({
   email: z
     .string()
-    .min(3, { message: "Its for sure too short for an email!" })
-    .email({ message: "Invalid email address" }),
+    .min(3, { message: "Its for sure too short for an email or username!" }),
   password: z
     .string()
     .regex(/(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/, {
@@ -46,8 +46,9 @@ const LoginForm = () => {
       >
         <Input
           type="text"
-          label="Email"
+          label="Email or Username"
           placeholder="example@example.com"
+          icon={<Mail size={24} />}
           registerProps={register("email")}
           ariaInvalid={Boolean(errors.email)}
           errors={errors?.email?.message}
@@ -57,6 +58,7 @@ const LoginForm = () => {
           type="password"
           label="Password"
           placeholder="MyStrongPassword123#"
+          icon={<Lock size={24} />}
           registerProps={register("password")}
           ariaInvalid={Boolean(errors.password)}
           errors={errors?.password?.message}

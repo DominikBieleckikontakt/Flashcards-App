@@ -8,13 +8,16 @@ import LoginForm from "@/components/login-page/login-form";
 const LoginPage = () => {
   return (
     <>
-      <Image
-        src={background}
-        alt="background"
-        layout="fill"
-        className="object-cover"
-      />
-      <main className="h-screen flex justify-center items-center mx-8">
+      <div className="">
+        <Image
+          src={background}
+          alt="background"
+          layout="fill"
+          className="object-cover"
+        />
+        <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>
+      </div>
+      <main className="h-screen flex justify-center items-center px-8 bg-primary">
         <div className="grid lg:grid-cols-2 gap-24">
           <LoginText />
           <LoginForm />

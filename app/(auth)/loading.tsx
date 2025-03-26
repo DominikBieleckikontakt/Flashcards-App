@@ -2,10 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 import background from "@/public/backgrounds/login_bg.jpg";
-import SignupText from "@/components/signup-page/signup-text";
-import SignupForm from "@/components/signup-page/signup-form";
+import Loader from "@/components/loader";
 
-const SignUpPage = () => {
+const Loading = () => {
   return (
     <>
       <div className="">
@@ -18,13 +17,12 @@ const SignUpPage = () => {
         <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>
       </div>
       <main className="h-screen flex justify-center items-center lg:mx-8 bg-primary">
-        <div className="grid lg:grid-cols-2 gap-24">
-          <SignupText />
-          <SignupForm />
+        <div className="z-10 bg-black/10 backdrop-blur-sm p-8 rounded-full">
+          <Loader styles="size-12 border-4" />
         </div>
       </main>
     </>
   );
 };
 
-export default SignUpPage;
+export default Loading;

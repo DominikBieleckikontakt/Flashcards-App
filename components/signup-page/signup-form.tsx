@@ -1,14 +1,16 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import Input from "../input";
 import Button from "../button";
 import Link from "next/link";
 import Loader from "../loader";
+
 import {
   CircleUserRound,
   Lock,
@@ -17,6 +19,9 @@ import {
   User,
   Users,
 } from "lucide-react";
+
+import { RegisterForm } from "@/types";
+import { createUser } from "@/actions/auth";
 
 const signupFormSchema = z
   .object({
@@ -39,7 +44,7 @@ const signupFormSchema = z
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
-        message: "The passwords dit not match",
+        message: "The passwords did not match",
         path: ["confirmPassword"],
       });
     }
@@ -49,17 +54,25 @@ const SignupForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors, isSubmitting, isSubmitted, isValid, isLoading },
+    formState: { errors, isSubmitting, isValid, isLoading },
   } = useForm({
     mode: "onBlur",
     resolver: zodResolver(signupFormSchema),
   });
 
-  const onSubmitHandler = async (data: any) => {
-    setTimeout(() => {
-      console.log(data);
-    }, 10000);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+
+  const onSubmitHandler = async (formData: RegisterForm) => {
+    const res = await createUser(formData);
+
+    if (res.error) {
+      setMessage(res.error);
+    }
+
+    if (res.user) {
+      router.push("/");
+    }
   };
 
   return (
@@ -146,6 +159,11 @@ const SignupForm = () => {
               "Sign up"
             )}
           </Button>
+        </div>
+        <div>
+          <p className="text-center text-red-500 font-bold text-lg">
+            {message}
+          </p>
         </div>
       </form>
       <div>
