@@ -1,14 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import Input from "../input";
 import Button from "../button";
 import Link from "next/link";
+
 import { Lock, Mail } from "lucide-react";
+
+import { LoginForm as LoginFormType } from "@/types";
+import { loginUser } from "@/actions/auth";
+import Loader from "../loader";
 
 const loginFormSchema = z.object({
   email: z
@@ -26,15 +32,25 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
+    formState: { errors, isSubmitting, isLoading, isValid },
   } = useForm({
     mode: "onBlur",
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSubmitHandler = (data: any) => {
-    console.log("Form submitted!", data);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+
+  const onSubmitHandler = async (formData: LoginFormType) => {
+    const res = await loginUser(formData);
+
+    if (res.error) {
+      setMessage(res.error);
+    }
+
+    if (res.user) {
+      router.push("/");
+    }
   };
 
   return (
@@ -70,8 +86,19 @@ const LoginForm = () => {
             disabled={isSubmitting || (!isValid && true)}
             styles="disabled:opacity-50 disabled:hover:bg-secondary bg-secondary hover:bg-secondary/50 w-full"
           >
-            Log in
+            {isSubmitting || isLoading ? (
+              <Loader
+                styles={`border-text border-t-transparent mx-auto size-8`}
+              />
+            ) : (
+              "Login"
+            )}
           </Button>
+        </div>
+        <div>
+          <p className="text-center text-red-500 font-bold text-lg">
+            {message}
+          </p>
         </div>
       </form>
       <div>

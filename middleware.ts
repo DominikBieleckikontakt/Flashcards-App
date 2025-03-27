@@ -8,10 +8,10 @@ export const middleware = async (
     const token = request.cookies.get("session")?.value ?? null;
 
     // Redirect user to main page when logged in
-    // const protectedRoutes = ["/login", "/signup"];
-    // if (token !== null && protectedRoutes.includes(request.nextUrl.pathname)) {
-    //   return NextResponse.redirect(new URL("/", request.url));
-    // }
+    const protectedRoutes = ["/login", "/signup"];
+    if (token !== null && protectedRoutes.includes(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
 
     // Renew session cookie when token exists
     if (token !== null) {
