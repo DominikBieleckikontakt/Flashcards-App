@@ -12,7 +12,7 @@ const SignUpPage = () => {
         <Image
           src={background}
           alt="background"
-          layout="fill"
+          fill
           className="object-cover"
         />
         <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>

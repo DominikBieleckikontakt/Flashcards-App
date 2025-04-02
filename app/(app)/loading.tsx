@@ -2,10 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 import background from "@/public/backgrounds/login_bg.jpg";
-import LoginText from "@/components/login-page/login-text";
-import LoginForm from "@/components/login-page/login-form";
+import Loader from "@/components/loader";
 
-const LoginPage = () => {
+const Loading = () => {
   return (
     <>
       <div className="">
@@ -17,14 +16,13 @@ const LoginPage = () => {
         />
         <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>
       </div>
-      <main className="h-screen flex justify-center items-center px-8 bg-primary">
-        <div className="grid lg:grid-cols-2 gap-24">
-          <LoginText />
-          <LoginForm />
+      <main className="h-screen flex justify-center items-center lg:mx-8 bg-primary">
+        <div className="z-10 bg-black/10 backdrop-blur-sm p-8 rounded-full">
+          <Loader styles="size-12 border-4" />
         </div>
       </main>
     </>
   );
 };
 
-export default LoginPage;
+export default Loading;

@@ -25,7 +25,7 @@ export const createSession = async (
   token: string,
   userId: string
 ): Promise<Session> => {
-  const sessionId = uuidv4();
+  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
     userId,
@@ -40,6 +40,7 @@ export const validateSessionToken = async (
   token: string
 ): Promise<SessionValidationResult> => {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+
   const result = await db
     .select({ user: userTable, session: sessionTable })
     .from(sessionTable)

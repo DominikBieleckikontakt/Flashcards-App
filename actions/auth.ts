@@ -5,8 +5,17 @@ import { userTable } from "@/db/schema";
 import { LoginForm, RegisterForm } from "@/types";
 import { eq, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
-import { createSession, generateSessionToken } from "@/lib/server/utils";
-import { setSessionTokenCookie } from "./cookies";
+import {
+  createSession,
+  generateSessionToken,
+  invalidateSession,
+} from "@/lib/server/utils";
+import {
+  deleteSessionTokenCookie,
+  getCurrentSession,
+  setSessionTokenCookie,
+} from "./cookies";
+import { redirect } from "next/navigation";
 
 export const loginUser = async ({ email, password }: LoginForm) => {
   if (!email || !password) {
@@ -77,4 +86,14 @@ export const createUser = async ({
   await setSessionTokenCookie(sessionToken, session.expiresAt);
 
   return { user, message: "User created successfully" };
+};
+
+export const logoutUser = async () => {
+  const { session } = await getCurrentSession();
+
+  if (session) {
+    await invalidateSession(session.id);
+    await deleteSessionTokenCookie();
+    return redirect("/login");
+  }
 };

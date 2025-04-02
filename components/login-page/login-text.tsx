@@ -4,7 +4,7 @@ import { Heart, Infinity, User } from "lucide-react";
 
 const LoginText = () => {
   return (
-    <div className="text-text z-10 space-y-10 bg-black/10 backdrop-blur-sm p-8 rounded-3xl">
+    <div className="text-text z-10 space-y-10 bg-black/10 backdrop-blur-sm p-8 rounded-3xl max-md:hidden">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">FlashApp</h1>
         <p className="text-base">

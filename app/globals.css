@@ -6,6 +6,8 @@
   --color-secondary: #4ba7f8;
   --color-accent: #a74ba0;
   --color-text: #fff;
+  --color-text-black: #101828;
+  --color-custom-white: #fff;
 }
 
 body {
