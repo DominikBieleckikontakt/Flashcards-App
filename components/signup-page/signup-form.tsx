@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import Input from "../input";
+import Input from "../ui/input";
 import Button from "../button";
 import Link from "next/link";
 import Loader from "../loader";
@@ -92,6 +92,7 @@ const SignupForm = () => {
             ariaInvalid={Boolean(errors.firstname)}
             errors={errors?.firstname?.message}
             styles="w-1/2"
+            inputClassnames="bg-white/10"
           />
           <Input
             type="text"
@@ -102,6 +103,7 @@ const SignupForm = () => {
             ariaInvalid={Boolean(errors.lastname)}
             errors={errors?.lastname?.message}
             styles="w-1/2"
+            inputClassnames="bg-white/10"
           />
         </div>
 
@@ -113,6 +115,7 @@ const SignupForm = () => {
           registerProps={register("username")}
           ariaInvalid={Boolean(errors.username)}
           errors={errors?.username?.message}
+          inputClassnames="bg-white/10"
         />
 
         <Input
@@ -123,6 +126,7 @@ const SignupForm = () => {
           registerProps={register("email")}
           ariaInvalid={Boolean(errors.email)}
           errors={errors?.email?.message}
+          inputClassnames="bg-white/10"
         />
 
         <Input
@@ -133,6 +137,7 @@ const SignupForm = () => {
           registerProps={register("password")}
           ariaInvalid={Boolean(errors.password)}
           errors={errors?.password?.message}
+          inputClassnames="bg-white/10"
         />
 
         <Input
@@ -143,6 +148,7 @@ const SignupForm = () => {
           registerProps={register("confirmPassword")}
           ariaInvalid={Boolean(errors.confirmPassword)}
           errors={errors?.confirmPassword?.message}
+          inputClassnames="bg-white/10"
         />
 
         <div className="w-full text-right">

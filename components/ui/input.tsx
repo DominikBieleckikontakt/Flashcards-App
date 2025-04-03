@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 import { Eye, EyeOff } from "lucide-react";
+import clsx from "clsx";
 
 type InputProps = {
   label?: string;
+  value?: string;
   type: string;
   placeholder: string;
   ariaInvalid?: boolean;
@@ -18,11 +20,13 @@ type InputProps = {
           email: string;
           password: string;
           confirmPassword: string;
+          gender: string;
         }>
       >;
   errors?: any;
   styles?: string;
   icon?: React.ReactNode;
+  inputClassnames?: string;
 };
 
 const Input = ({
@@ -34,12 +38,16 @@ const Input = ({
   errors,
   styles,
   icon,
+  inputClassnames,
+  value,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className={`flex flex-col gap-2 relative ${styles}`}>
-      {label && label.length > 0 && <label>{label}</label>}
+      {label && label.length > 0 && (
+        <label htmlFor={label.trim().toLowerCase()}>{label}</label>
+      )}
       <div className="relative">
         {icon && (
           <div className="absolute inset-y-0 left-3 flex items-center cursor-pointer">
@@ -54,9 +62,16 @@ const Input = ({
           autoComplete="off"
           {...registerProps}
           aria-invalid={ariaInvalid}
-          className={`bg-white/10 backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary autofill:bg-red-500! ${
+          defaultValue={value}
+          // className={` bg-white/10 backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary ${inputClassnames} ${
+          //   icon && "pl-10"
+          // } `}
+          className={clsx(
+            inputClassnames, // Najpierw użytkownikowe klasy, by mogły nadpisywać inne
+            "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary",
             icon && "pl-10"
-          }`}
+          )}
+          id={label?.trim().toLocaleLowerCase()}
         />
         {type === "password" && (
           <button

@@ -12,6 +12,11 @@ export type LoginForm = {
   password: string;
 };
 
+export type WrapperComponent = {
+  children: React.ReactNode;
+  classNames?: string;
+};
+
 export type UserType = {
   id: string;
   firstname: string;

@@ -2,7 +2,6 @@
 import { getCurrentSession } from "@/actions/cookies";
 import { useUserStore } from "@/stores/user";
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
 
 const Home = () => {
   const setUser = useUserStore((state) => state.setUser);

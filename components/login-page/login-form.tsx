@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import Input from "../input";
+import Input from "../ui/input";
 import Button from "../button";
 import Link from "next/link";
 
@@ -68,6 +68,7 @@ const LoginForm = () => {
           registerProps={register("email")}
           ariaInvalid={Boolean(errors.email)}
           errors={errors?.email?.message}
+          inputClassnames="bg-white/10"
         />
 
         <Input
@@ -78,6 +79,7 @@ const LoginForm = () => {
           registerProps={register("password")}
           ariaInvalid={Boolean(errors.password)}
           errors={errors?.password?.message}
+          inputClassnames="bg-white/10"
         />
 
         <div className="w-full text-right">

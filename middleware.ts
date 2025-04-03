@@ -6,10 +6,16 @@ export const middleware = async (
   if (request.method === "GET") {
     const response = NextResponse.next();
     const token = request.cookies.get("session")?.value ?? null;
+    const pathname = request.nextUrl.pathname;
 
-    // Redirect user to main page when logged in
-    const protectedRoutes = ["/login", "/signup"];
-    if (token !== null && protectedRoutes.includes(request.nextUrl.pathname)) {
+    if (pathname.startsWith("/profile/settings")) {
+      if (!token) {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
+    }
+
+    const authPages = ["/login", "/signup"];
+    if (token && authPages.includes(pathname)) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 

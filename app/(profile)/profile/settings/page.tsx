@@ -1,28 +1,11 @@
-"use client";
-import { getCurrentSession } from "@/actions/cookies";
-import { useUserStore } from "@/stores/user";
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
+import Dashboard from "@/components/profile-settings/dashboard";
 
-const Home = () => {
-  const setUser = useUserStore((state) => state.setUser);
-  const currentUser = useUserStore((state) => state.user);
-
-  useEffect(() => {
-    const saveUser = async () => {
-      if (!currentUser) {
-        const { session, user } = await getCurrentSession();
-
-        session === null && redirect("/login");
-
-        user && setUser(user);
-      }
-    };
-
-    saveUser();
-  }, [setUser]);
-
-  return <div className=""></div>;
+const SettingsPage = () => {
+  return (
+    <main className="mx-auto max-sm:px-5 max-xl:px-16 my-36 lg:max-w-[1200px]">
+      <Dashboard />
+    </main>
+  );
 };
 
-export default Home;
+export default SettingsPage;

@@ -43,10 +43,10 @@ const Navbar = () => {
                     alt="Your Company"
                   /> */}
                   <Link href="/">
-                    <h2 className="font-extralight text-2xl">
+                    <h1 className="font-extralight text-2xl">
                       Next
                       <span className="text-primary font-normal">Flash</span>
-                    </h2>
+                    </h1>
                   </Link>
                 </div>
                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
@@ -80,7 +80,7 @@ const Navbar = () => {
                     <input
                       id="search"
                       name="search"
-                      className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-text-black ring-1 ring-inset ring-text-black/10 placeholder:text-text-black/60 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 outline-0 border-0"
+                      className="block w-full rounded-md py-1.5 pl-10 pr-3 text-text-black ring-1 ring-inset ring-text-black/10 placeholder:text-text-black/60 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 outline-0 border-0"
                       placeholder="Search"
                       type="search"
                     />
