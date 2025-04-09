@@ -27,6 +27,8 @@ type InputProps = {
   styles?: string;
   icon?: React.ReactNode;
   inputClassnames?: string;
+  accept?: string;
+  onChange?: (e: any) => void;
 };
 
 const Input = ({
@@ -40,6 +42,8 @@ const Input = ({
   icon,
   inputClassnames,
   value,
+  accept,
+  onChange,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -50,7 +54,7 @@ const Input = ({
       )}
       <div className="relative">
         {icon && (
-          <div className="absolute inset-y-0 left-3 flex items-center cursor-pointer">
+          <div className="absolute inset-y-0 left-3 flex items-center cursor-pointer z-10">
             {icon}
           </div>
         )}
@@ -58,19 +62,18 @@ const Input = ({
           type={
             type === "password" ? (showPassword ? "text" : "password") : type
           }
+          onChange={onChange && onChange}
           placeholder={placeholder}
           autoComplete="off"
           {...registerProps}
           aria-invalid={ariaInvalid}
           defaultValue={value}
-          // className={` bg-white/10 backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary ${inputClassnames} ${
-          //   icon && "pl-10"
-          // } `}
           className={clsx(
             inputClassnames, // Najpierw użytkownikowe klasy, by mogły nadpisywać inne
             "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary",
             icon && "pl-10"
           )}
+          accept={type === "file" ? accept : undefined}
           id={label?.trim().toLocaleLowerCase()}
         />
         {type === "password" && (

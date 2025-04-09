@@ -29,3 +29,19 @@ export type UserType = {
   createdAt: Date | null;
   birthDate: Date | null;
 };
+
+export type UserUpdateType = {
+  firstname?: string;
+  lastname?: string;
+  username?: string;
+  gender?: string;
+  password?: string;
+  profilePicture?: string;
+  birthDate?: Date;
+};
+
+export type DatePickerProps = {
+  value?: Date;
+  onChange?: (date: Date | undefined) => void;
+  name?: string;
+};

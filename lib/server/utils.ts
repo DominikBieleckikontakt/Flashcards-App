@@ -4,7 +4,6 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { eq } from "drizzle-orm";
-import { v4 as uuidv4 } from "uuid";
 
 import { db } from "@/db";
 import { type User, type Session, sessionTable, userTable } from "@/db/schema";

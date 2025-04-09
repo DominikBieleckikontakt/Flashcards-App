@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useUserStore } from "@/stores/user";
 import { User } from "lucide-react";
 import { logoutUser } from "@/actions/auth";
+import Image from "next/image";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -108,13 +109,15 @@ const Navbar = () => {
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         {user.profilePicture ? (
-                          <img
-                            className="rounded-full"
+                          <Image
+                            className="rounded-full size-8  aspect-square object-cover"
+                            width={32}
+                            height={32}
                             src={user.profilePicture}
-                            alt=""
+                            alt="profile picture"
                           />
                         ) : (
-                          <User className="text-text-black/40 border-text-black/40 border rounded-full size-6" />
+                          <User className="text-text-black/40 border-text-black/40 border rounded-full size-8" />
                         )}
                       </Menu.Button>
                     </div>

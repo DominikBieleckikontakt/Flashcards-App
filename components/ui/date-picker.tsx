@@ -7,36 +7,47 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import CustomCaption from "@/components/ui/custom-caption";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { DatePickerProps } from "@/types";
 
-const DatePicker = () => {
-  const [date, setDate] = React.useState<Date>();
+const DatePicker = ({ value, onChange, name }: DatePickerProps) => {
+  const handleSelect = (selectedDate: Date | undefined) => {
+    if (onChange) onChange(selectedDate);
+  };
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
+      <PopoverTrigger asChild className="w-full">
+        <button
           className={cn(
-            "w-1/2 justify-start text-left font-normal hover:bg-text-black/5 cursor-pointer",
-            !date && "text-muted-foreground"
+            "backdrop-blur-sm w-full rounded-md flex items-center p-2 duration-300 outline-0 border-2 border-transparent bg-text-black/5 text-text-black text-left justify-start",
+            !value && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
+          {value ? format(value, "PPP") : <span>Pick a date</span>}
+        </button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-full p-0 min-w-[300px]">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          onSelect={handleSelect}
+          fromYear={1900}
+          toYear={new Date().getFullYear()}
+          selected={value}
+          disabled={(date) =>
+            date > new Date() || date < new Date("1900-01-01")
+          }
           initialFocus
-          className="w-full"
+          components={{
+            Caption: CustomCaption,
+          }}
+          className="w-full flex justify-center"
         />
       </PopoverContent>
     </Popover>
