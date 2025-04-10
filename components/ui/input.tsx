@@ -22,6 +22,13 @@ type InputProps = {
           confirmPassword: string;
           gender: string;
         }>
+      >
+    | ReturnType<
+        UseFormRegister<{
+          currentPassword: string;
+          newPassword: string;
+          confirmNewPassword: string;
+        }>
       >;
   errors?: any;
   styles?: string;

@@ -40,6 +40,12 @@ export type UserUpdateType = {
   birthDate?: Date;
 };
 
+export type UserResetPasswordType = {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+
 export type DatePickerProps = {
   value?: Date;
   onChange?: (date: Date | undefined) => void;

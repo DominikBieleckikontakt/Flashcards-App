@@ -84,7 +84,12 @@ const EditProfileForm = () => {
 
     const result = await updateUser({ id: currentUser!.id, ...updatedData });
 
-    result.success && setSuccess(result.success);
+    if (result.success) {
+      currentUser && setUser({ ...currentUser, ...updatedData });
+
+      setSuccess(result.success);
+    }
+
     result.success === false && setSuccess(result.success);
 
     result && setMessage(result.message);
@@ -233,7 +238,7 @@ const EditProfileForm = () => {
                 "Save"
               )}
             </Button>
-            <Link href="/profile/reset-password" className="w-1/2">
+            <Link href="/profile/settings/reset-password" className="w-1/2">
               <Button styles="disabled:opacity-50 disabled:hover:bg-secondary bg-red-400 hover:bg-red-500 w-full">
                 Reset Password
               </Button>

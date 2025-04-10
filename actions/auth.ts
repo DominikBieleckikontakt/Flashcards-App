@@ -3,7 +3,6 @@
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
 import { LoginForm, RegisterForm } from "@/types";
-import { eq, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import {
   createSession,
