@@ -54,7 +54,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="text-text bg-white/10 backdrop-blur-sm w-full h-full rounded-3xl p-8 flex flex-col justify-between">
+    <div className="text-light bg-white/10 backdrop-blur-sm w-full h-full rounded-3xl p-8 flex flex-col justify-between">
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         noValidate
@@ -108,7 +108,7 @@ const LoginForm = () => {
           You don't have an account?{" "}
           <Link
             href="/signup"
-            className="text-primary hover:text-accent duration-300 font-semibold"
+            className="text-accent hover:text-accent/80 duration-300 font-semibold"
           >
             Sign Up
           </Link>{" "}

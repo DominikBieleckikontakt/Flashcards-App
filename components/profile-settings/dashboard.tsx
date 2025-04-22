@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+
 import { FolderSearch2, Globe, Plus, User } from "lucide-react";
 import DashboardCard from "./dashboard-card";
 
@@ -13,7 +15,7 @@ const Dashboard = () => {
         </p>
       </DashboardCard>
 
-      <DashboardCard href="#" icon={<Plus />}>
+      <DashboardCard href="/flashcards/new" icon={<Plus />}>
         <h2 className="font-bold text-xl mb-5">Create a Flashcard</h2>
         <p>Add a new flashcard and share your knowledge with others.</p>
       </DashboardCard>

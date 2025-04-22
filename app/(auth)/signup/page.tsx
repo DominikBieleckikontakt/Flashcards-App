@@ -17,7 +17,7 @@ const SignUpPage = () => {
         />
         <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>
       </div>
-      <main className="h-screen flex justify-center items-center lg:mx-8 bg-primary">
+      <main className="h-[100svh] flex justify-center items-center lg:mx-8 bg-primary">
         <div className="grid lg:grid-cols-2 gap-24">
           <SignupText />
           <SignupForm />

@@ -19,7 +19,7 @@ const Home = () => {
     saveUser();
   }, [setUser]);
 
-  return <div className=""></div>;
+  return <main className=""></main>;
 };
 
 export default Home;

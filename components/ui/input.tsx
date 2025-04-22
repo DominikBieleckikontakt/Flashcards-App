@@ -90,9 +90,9 @@ const Input = ({
             className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
           >
             {showPassword ? (
-              <EyeOff size={20} className="hover:text-text/60 duration-300" />
+              <EyeOff size={20} className="hover:text-light/60 duration-300" />
             ) : (
-              <Eye size={20} className="hover:text-text/60 duration-300" />
+              <Eye size={20} className="hover:text-light/60 duration-300" />
             )}
           </button>
         )}

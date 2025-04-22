@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 
 import { useUserStore } from "@/stores/user";
-import { getCurrentSession } from "@/actions/cookies";
 
 import DatePicker from "@/components/ui/date-picker";
 import Input from "@/components/ui/input";
@@ -97,21 +96,6 @@ const EditProfileForm = () => {
 
   useEffect(() => {
     const saveUser = async () => {
-      if (!currentUser) {
-        const { user } = await getCurrentSession();
-
-        user && setUser(user);
-        setValue("firstname", user!.firstname);
-        setValue("lastname", user!.lastname);
-        setValue("username", user!.username);
-        setValue("gender", user!.gender || "");
-        setValue(
-          "birthDate",
-          user!.birthDate ? new Date(user!.birthDate) : new Date()
-        );
-        setValue("profilePicture", user!.profilePicture || "");
-      }
-
       if (currentUser) {
         setValue("firstname", currentUser?.firstname);
         setValue("lastname", currentUser?.lastname);

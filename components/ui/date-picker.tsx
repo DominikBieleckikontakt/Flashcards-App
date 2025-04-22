@@ -25,7 +25,7 @@ const DatePicker = ({ value, onChange, name }: DatePickerProps) => {
       <PopoverTrigger asChild className="w-full">
         <button
           className={cn(
-            "backdrop-blur-sm w-full rounded-md flex items-center p-2 duration-300 outline-0 border-2 border-transparent bg-text-black/5 text-text-black text-left justify-start",
+            "backdrop-blur-sm w-full rounded-md flex items-center p-2 duration-300 outline-0 border-2 border-transparent bg-dark/5 text-dark text-left justify-start",
             !value && "text-muted-foreground"
           )}
         >
