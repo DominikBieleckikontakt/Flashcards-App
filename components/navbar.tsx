@@ -42,8 +42,8 @@ const Navbar = () => {
     <Disclosure as="nav" className="fixed left-0 top-0 z-10 w-full">
       {({ open }) => (
         <>
-          <div className={`mx-auto px-2 sm:px-4 lg:px-8 shadow z-20`}>
-            <div className="flex h-16 justify-between">
+          <div className={`mx-auto px-2 sm:px-4 lg:px-8 shadow z-20 bg-white`}>
+            <div className="flex h-16 justify-between z-20">
               <div className="flex px-2 lg:px-0">
                 <div className="flex items-center mr-6">
                   {/* Mobile menu button */}
@@ -102,19 +102,19 @@ const Navbar = () => {
                 {user ? (
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="relative flex rounded-full cursor-pointer bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                      <Menu.Button className="relative flex rounded-full cursor-pointer bg-white text-sm focus:outline-none hover:scale-105 duration-300">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         {user.profilePicture ? (
                           <Image
-                            className="rounded-full size-10 aspect-square object-cover"
+                            className="rounded-full size-10 aspect-square object-cover hover:scale-105 duration-300"
                             width={48}
                             height={48}
                             src={user.profilePicture}
                             alt="profile picture"
                           />
                         ) : (
-                          <User className="text-dark/40 border-dark/40 border rounded-full size-8" />
+                          <User className="text-dark/40 border-dark/40 border rounded-full size-8 hover:scale-105 duration-300" />
                         )}
                       </Menu.Button>
                     </div>
@@ -191,7 +191,7 @@ const Navbar = () => {
             leaveFrom="opacity-100 max-lg:translate-y-0 lg:translate-x-0"
             leaveTo="opacity-0 max-lg:-translate-y-10 lg:-translate-x-full"
           >
-            <Disclosure.Panel className="w-full pt-8 lg:max-w-72 h-[calc(100vh-64px)] transition-all duration-300 shadow-lg bg-white">
+            <Disclosure.Panel className="w-full pt-8 lg:max-w-72 h-[calc(100vh-64px)] transition-all duration-300 shadow-lg bg-white z-10 relative">
               <div className="space-y-1 pb-3 pt-2">
                 {links.map(({ name, href, auth }, key) => (
                   <Disclosure.Button
@@ -216,14 +216,14 @@ const Navbar = () => {
                     <div className="flex-shrink-0">
                       {user.profilePicture ? (
                         <Image
-                          className="rounded-full size-8  aspect-square object-cover"
+                          className="rounded-full size-8  aspect-square object-cover hover:scale-105 duration-300"
                           width={32}
                           height={32}
                           src={user.profilePicture}
                           alt="profile picture"
                         />
                       ) : (
-                        <User className="text-dark/40 border-dark/40 border rounded-full size-8" />
+                        <User className="text-dark/40 border-dark/40 border rounded-full size-8 hover:scale-105 duration-300" />
                       )}
                     </div>
                     <div className="ml-3">

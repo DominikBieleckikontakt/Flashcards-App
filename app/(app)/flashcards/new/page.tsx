@@ -2,7 +2,7 @@ import React from "react";
 
 import { getCurrentSession } from "@/actions/cookies";
 import { redirect } from "next/navigation";
-import AddFlashcardForm from "@/components/add-flashcard/add-flashcard-form";
+import Steps from "@/components/add-flashcard/steps";
 
 const NewFlashcardsPage = async () => {
   const { user } = await getCurrentSession();
@@ -13,7 +13,12 @@ const NewFlashcardsPage = async () => {
 
   return (
     <main className="mx-auto max-sm:px-5 max-xl:px-16 my-36 lg:max-w-[1200px]">
-      <AddFlashcardForm />
+      <div className="rounded-lg border border-dark/10 p-8">
+        <h2 className="text-2xl font-light md:w-4/6 md:mx-auto">
+          Add new flashcard
+        </h2>
+        <Steps />
+      </div>
     </main>
   );
 };

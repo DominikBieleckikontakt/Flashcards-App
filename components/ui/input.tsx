@@ -10,30 +10,32 @@ type InputProps = {
   type: string;
   placeholder: string;
   ariaInvalid?: boolean;
-  registerProps?:
-    | ReturnType<UseFormRegister<{ email: string; password: string }>>
-    | ReturnType<
-        UseFormRegister<{
-          firstname: string;
-          lastname: string;
-          username: string;
-          email: string;
-          password: string;
-          confirmPassword: string;
-          gender: string;
-        }>
-      >
-    | ReturnType<
-        UseFormRegister<{
-          currentPassword: string;
-          newPassword: string;
-          confirmNewPassword: string;
-        }>
-      >;
+  registerProps?: any; // ReturnType<UseFormRegister<{ email: string; password: string }>>
+  // registerProps?:
+  //   | ReturnType<UseFormRegister<{ email: string; password: string }>>
+  //   | ReturnType<
+  //       UseFormRegister<{
+  //         firstname: string;
+  //         lastname: string;
+  //         username: string;
+  //         email: string;
+  //         password: string;
+  //         confirmPassword: string;
+  //         gender: string;
+  //       }>
+  //     >
+  //   | ReturnType<
+  //       UseFormRegister<{
+  //         currentPassword: string;
+  //         newPassword: string;
+  //         confirmNewPassword: string;
+  //       }>
+  //     >;
   errors?: any;
   styles?: string;
   icon?: React.ReactNode;
   inputClassnames?: string;
+  labelClassnames?: string;
   accept?: string;
   onChange?: (e: any) => void;
 };
@@ -51,13 +53,16 @@ const Input = ({
   value,
   accept,
   onChange,
+  labelClassnames,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className={`flex flex-col gap-2 relative ${styles}`}>
       {label && label.length > 0 && (
-        <label htmlFor={label.trim().toLowerCase()}>{label}</label>
+        <label htmlFor={label.trim().toLowerCase()} className={labelClassnames}>
+          {label}
+        </label>
       )}
       <div className="relative">
         {icon && (
