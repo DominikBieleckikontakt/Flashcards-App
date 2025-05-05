@@ -8,7 +8,7 @@ export const middleware = async (
     const token = request.cookies.get("session")?.value ?? null;
     const pathname = request.nextUrl.pathname;
 
-    if (pathname.startsWith("/profile/settings")) {
+    if (pathname.startsWith("/dasboard")) {
       if (!token) {
         return NextResponse.redirect(new URL("/login", request.url));
       }

@@ -222,7 +222,7 @@ const EditProfileForm = () => {
                 "Save"
               )}
             </Button>
-            <Link href="/profile/settings/reset-password" className="w-1/2">
+            <Link href="/dashboard/reset-password" className="w-1/2">
               <Button styles="disabled:opacity-50 disabled:hover:bg-secondary bg-red-400 hover:bg-red-500 w-full">
                 Reset Password
               </Button>

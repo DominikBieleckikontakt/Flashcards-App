@@ -144,13 +144,13 @@ const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              href="/profile/settings"
+                              href="/dashboard"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700 duration-300"
                               )}
                             >
-                              Settings
+                              Dashboard
                             </Link>
                           )}
                         </Menu.Item>
@@ -246,10 +246,10 @@ const Navbar = () => {
                     </Disclosure.Button>
                     <Disclosure.Button
                       as="a"
-                      href="/profile/settings"
+                      href="/dashboard"
                       className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                     >
-                      Settings
+                      Dashboard
                     </Disclosure.Button>
                     <Disclosure.Button
                       as="a"

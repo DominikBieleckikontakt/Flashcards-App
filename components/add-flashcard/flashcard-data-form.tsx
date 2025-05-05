@@ -65,7 +65,7 @@ const FlashcardData = ({
         type="text"
         ariaInvalid={Boolean(errors.title)}
         registerProps={register("title")}
-        placeholder="Enter the title of your flashcard"
+        placeholder="Enter the title of your flashcards set"
         errors={errors.title?.message}
         {...register("title")}
         inputClassnames="!border-dark/10 !border focus:!border-primary"
@@ -76,7 +76,7 @@ const FlashcardData = ({
         label="Description"
         ariaInvalid={Boolean(errors.description)}
         registerProps={register("description")}
-        placeholder="Enter the description of your flashcard"
+        placeholder="Enter the description of your flashcards set"
         errors={errors.description?.message}
         {...register("description")}
         textareaClassnames="!border-dark/10 !border focus:!border-primary"
@@ -99,7 +99,7 @@ const FlashcardData = ({
               Public
               <span className="text-dark/70 text-sm flex">
                 {" "}
-                Anyone can see this flashcard set
+                Anyone can see this flashcards set
               </span>
             </div>
           </label>
@@ -117,7 +117,7 @@ const FlashcardData = ({
               Private
               <span className="text-dark/70 text-sm flex">
                 {" "}
-                Only you can see this flashcard set
+                Only you can see this flashcards set
               </span>
             </div>
           </label>
