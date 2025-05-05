@@ -6,6 +6,7 @@ import clsx from "clsx";
 
 type InputProps = {
   label?: string;
+  defaultValue?: string;
   value?: string;
   type: string;
   placeholder: string;
@@ -50,6 +51,7 @@ const Input = ({
   styles,
   icon,
   inputClassnames,
+  defaultValue,
   value,
   accept,
   onChange,
@@ -79,7 +81,8 @@ const Input = ({
           autoComplete="off"
           {...registerProps}
           aria-invalid={ariaInvalid}
-          defaultValue={value}
+          defaultValue={defaultValue}
+          value={value}
           className={clsx(
             inputClassnames, // Najpierw użytkownikowe klasy, by mogły nadpisywać inne
             "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary",

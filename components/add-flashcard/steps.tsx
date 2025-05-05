@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import FlashcardData from "./flashcard-data-form";
+import Flashcards from "./flashcards";
 
 export type CollectedDataType = {
   title: string;
@@ -27,7 +28,7 @@ const Steps = () => {
       );
       break;
     case 1:
-      content = <div>Step 2</div>;
+      content = <Flashcards />;
   }
 
   useEffect(() => {

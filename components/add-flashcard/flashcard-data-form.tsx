@@ -69,7 +69,7 @@ const FlashcardData = ({
         errors={errors.title?.message}
         {...register("title")}
         inputClassnames="!border-dark/10 !border focus:!border-primary"
-        labelClassnames="font-normal text-dark/70"
+        labelClassnames="text-dark/70"
         styles="!gap-1"
       />
       <Textarea
@@ -80,7 +80,7 @@ const FlashcardData = ({
         errors={errors.description?.message}
         {...register("description")}
         textareaClassnames="!border-dark/10 !border focus:!border-primary"
-        labelClassnames="font-normal text-dark/70"
+        labelClassnames="text-dark/70"
         styles="!gap-1"
         rows={4}
       />
