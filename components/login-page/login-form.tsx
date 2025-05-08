@@ -49,7 +49,7 @@ const LoginForm = () => {
     }
 
     if (res.user) {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 

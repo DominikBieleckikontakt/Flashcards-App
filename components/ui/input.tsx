@@ -8,6 +8,7 @@ type InputProps = {
   label?: string;
   defaultValue?: string;
   value?: string;
+  name?: string;
   type: string;
   placeholder: string;
   ariaInvalid?: boolean;
@@ -34,6 +35,7 @@ type InputProps = {
   //     >;
   errors?: any;
   styles?: string;
+  id?: string;
   icon?: React.ReactNode;
   inputClassnames?: string;
   labelClassnames?: string;
@@ -43,7 +45,9 @@ type InputProps = {
 
 const Input = ({
   label,
+  id,
   type,
+  name,
   placeholder,
   registerProps,
   ariaInvalid,
@@ -79,6 +83,7 @@ const Input = ({
           onChange={onChange && onChange}
           placeholder={placeholder}
           autoComplete="off"
+          name={name}
           {...registerProps}
           aria-invalid={ariaInvalid}
           defaultValue={defaultValue}
@@ -89,7 +94,7 @@ const Input = ({
             icon && "pl-10"
           )}
           accept={type === "file" ? accept : undefined}
-          id={label?.trim().toLocaleLowerCase()}
+          id={id || label?.trim().toLocaleLowerCase()}
         />
         {type === "password" && (
           <button

@@ -114,7 +114,7 @@ const EditProfileForm = () => {
 
   return (
     <form
-      className="max-w-[60rem] mx-auto rounded-lg p-5 border border-text-black/10 space-y-8"
+      className="max-w-[70rem] lg:min-w-[60rem] mx-auto rounded-lg p-5 border border-text-black/10 space-y-8"
       onSubmit={handleSubmit(onSubmitHandler)}
       noValidate
     >
@@ -130,7 +130,7 @@ const EditProfileForm = () => {
               placeholder="John"
               label="First Name"
               registerProps={register("firstname")}
-              inputClassnames="bg-text-black/5"
+              inputClassnames="bg-dark/5"
               styles="w-full md:w-1/2"
               ariaInvalid={Boolean(errors.firstname)}
               errors={errors?.firstname?.message}
@@ -140,7 +140,7 @@ const EditProfileForm = () => {
               placeholder="Smith"
               label="Last Name"
               registerProps={register("lastname")}
-              inputClassnames="bg-text-black/5"
+              inputClassnames="bg-dark/5"
               styles="w-full md:w-1/2"
               ariaInvalid={Boolean(errors.lastname)}
               errors={errors?.lastname?.message}
@@ -151,7 +151,7 @@ const EditProfileForm = () => {
             placeholder="Username"
             label="Username"
             registerProps={register("username")}
-            inputClassnames="bg-text-black/5"
+            inputClassnames="bg-dark/5"
             ariaInvalid={Boolean(errors.username)}
             errors={errors?.username?.message}
           />
@@ -160,7 +160,7 @@ const EditProfileForm = () => {
             placeholder="Male"
             label="Gender"
             registerProps={register("gender")}
-            inputClassnames="bg-text-black/5"
+            inputClassnames="bg-dark/5"
             ariaInvalid={Boolean(errors.gender)}
             errors={errors?.gender?.message}
           />
@@ -176,16 +176,6 @@ const EditProfileForm = () => {
                 )}
               />
             </div>
-            {/* <Input
-              type="file"
-              accept="image/*"
-              label="Profile Picture"
-              styles="w-full md:w-1/2"
-              icon={<Download className="size-5" />}
-              // registerProps={register("profilePicture")}
-              inputClassnames="bg-text-black/5"
-              placeholder="Upload a profile picture"
-            /> */}
             <Controller
               name="profilePicture"
               control={control}
@@ -196,7 +186,7 @@ const EditProfileForm = () => {
                   label="Profile Picture"
                   styles="w-full md:w-1/2"
                   icon={<Download className="size-5" />}
-                  inputClassnames="bg-text-black/5"
+                  inputClassnames="bg-dark/5"
                   placeholder="Upload a profile picture"
                   onChange={(e) => {
                     const file = e.target.files?.[0] ?? null;

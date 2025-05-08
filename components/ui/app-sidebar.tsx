@@ -5,14 +5,25 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
   useSidebar,
 } from "./sidebar";
-import { Home, Inbox, Plus, Search, Settings, Star } from "lucide-react";
+import {
+  Home,
+  Inbox,
+  LogOut,
+  Plus,
+  Search,
+  Settings,
+  Star,
+} from "lucide-react";
 import { NavMain } from "../sidebar-elements/nav-main";
 import { NavUser } from "../sidebar-elements/nav-user";
 import { Collapsible, CollapsibleTrigger } from "./collapsible";
+import { logoutUser } from "@/actions/auth";
 
 const data = {
   user: {
@@ -49,7 +60,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "/settings",
+      url: "/dashboard/edit-profile",
       icon: <Settings />,
     },
   ],
@@ -76,7 +87,22 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         <NavMain links={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <SidebarMenu>
+          <Collapsible asChild className="group/collapsible">
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton
+                  tooltip={"Log out"}
+                  className={`cursor-pointer flex items-center justify-start text-black/80`}
+                  onClick={async () => await logoutUser()}
+                >
+                  <LogOut className="size-5" />
+                  <span>Log out</span>
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

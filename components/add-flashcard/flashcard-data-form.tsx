@@ -9,7 +9,7 @@ import Textarea from "../ui/textarea";
 import { Eye, Shield } from "lucide-react";
 import SelectDropdown from "../ui/select-dropdown";
 import Button from "../button";
-import { CollectedDataType } from "./steps";
+import { CollectedFlashcardDataType, FlashcardsProps } from "@/types";
 
 const formResolver = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -21,20 +21,21 @@ const formResolver = z.object({
 const FlashcardData = ({
   updateData,
   updateCurrentStep,
-}: {
-  updateData: (data: any) => void;
-  updateCurrentStep: (data: any) => void;
-}) => {
+  currentData,
+}: FlashcardsProps) => {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting, isLoading, isValid },
+    formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onSubmit",
     resolver: zodResolver(formResolver),
     defaultValues: {
-      category: [],
+      title: currentData?.title || "",
+      description: currentData?.description || "",
+      privacy: currentData?.privacy || "public",
+      category: currentData?.category || [],
     },
   });
 
@@ -44,7 +45,7 @@ const FlashcardData = ({
     privacy: "public" | "private";
     category?: string[];
   }) => {
-    updateData((prev: CollectedDataType | null) => ({
+    updateData((prev: CollectedFlashcardDataType | null) => ({
       ...prev,
       title: data.title,
       description: data.description,

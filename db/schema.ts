@@ -1,4 +1,5 @@
 import { InferSelectModel } from "drizzle-orm";
+import { integer } from "drizzle-orm/gel-core";
 import {
   pgTable,
   primaryKey,
@@ -38,6 +39,8 @@ export const flashcardSetsTable = pgTable("flashcard_sets", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   description: text("description"),
+  privacy: text("privacy").notNull(),
+  category: text("category").array(),
   userId: uuid("user_id")
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
@@ -51,10 +54,22 @@ export const flashcardsTable = pgTable("flashcards", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   question: text("question").notNull(),
   answer: text("answer").notNull(),
-  flashcardSetId: uuid("set_id")
-    .references(() => flashcardSetsTable.id, { onDelete: "cascade" })
-    .notNull(),
 });
+
+export const flashcardSetToFlashcardsTable = pgTable(
+  "flashcard_set_flashcards",
+  {
+    setId: uuid("set_id")
+      .notNull()
+      .references(() => flashcardSetsTable.id, { onDelete: "cascade" }),
+    flashcardId: uuid("flashcard_id")
+      .notNull()
+      .references(() => flashcardsTable.id, { onDelete: "cascade" }),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.setId, table.flashcardId] }),
+  })
+);
 
 export const favorites = pgTable(
   "favorites",

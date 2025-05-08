@@ -14,6 +14,7 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
+  const description = formData.get("description") as string;
 
   if (!file) {
     return NextResponse.json(
@@ -32,11 +33,29 @@ export async function POST(req: Request) {
     model: modelName,
     messages: [
       {
+        role: "system",
+        content: `You are a helpful assistant that creates flashcards from provided materials..`,
+      },
+      {
         role: "user",
         content: [
           {
             type: "text",
-            text: 'Extract flashcards from the text. Return a plain JSON array of objects, using this format exactly: [{ "id": number, "question": string, "answer": string }] Use double quotes (") for all keys and string values. Do not include any extra text, comments, markdown (like ```json), or explanations. The response must be a valid JSON array only. Now you have to know more about creating flashcards. If you see word in 2 languages like from a book you create object with original word and translation. If you see a question and answer you create object with question and answer. If you see a word in one language and its definition in another language, create an object with the word and its definition. If you see a word in one language and its synonym in another language, create an object with the word and its synonym. If you see a word in one language and its antonym in another language, create an object with the word and its antonym. If you see a word in one language and its example in another language, create an object with the word and its example.',
+            text: `You will receive an image and a description. Extract flashcards from the content.
+
+                  Instructions:
+                  - Return only a valid JSON array, nothing else.
+                  - Format: [{"id": number, "question": string, "answer": string}]
+                  - Use double quotes (") for all keys and string values.
+                  - Do not add markdown (like \`\`\`json), comments, or extra text.
+                  - Flashcards should be based on any of these patterns:
+                    - A word in one language and its translation.
+                    - A question and its answer.
+                    - A word and its definition, synonym, antonym, or example (even if in different languages).
+                  - Use the description to improve flashcard quality.
+
+                  Description: ${description}
+                  Now extract the flashcards based on this image content.`,
           },
           { type: "image_url", image_url: { url: base64Image } },
         ],

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
-import { Button } from "../ui/button";
+import Button from "../button";
 import FlashcardsInput from "./flashcards-input";
 import Input from "../ui/input";
 import { Download } from "lucide-react";
 import Loader from "../loader";
+import Textarea from "../ui/textarea";
+import { CollectedFlashcardDataType, FlashcardsProps } from "@/types";
 
 type Flashcard = {
   id: number;
@@ -12,15 +14,22 @@ type Flashcard = {
   answer: string;
 };
 
-const Flashcards = () => {
-  const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    {
-      id: 0,
-      question: "",
-      answer: "",
-    },
-  ]);
+const Flashcards = ({
+  updateData,
+  updateCurrentStep,
+  currentData,
+}: FlashcardsProps) => {
+  const [flashcards, setFlashcards] = useState<Flashcard[]>(
+    currentData?.flashcards || [
+      {
+        id: 0,
+        question: "",
+        answer: "",
+      },
+    ]
+  );
   const [isLoading, setIsLoading] = useState(false);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const addFlashcard = () => {
     setFlashcards((prev) => [
@@ -41,52 +50,63 @@ const Flashcards = () => {
     setFlashcards((prev) => prev.filter((flashcard) => flashcard.id !== id));
   };
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsLoading(true);
-    const file = event.target.files?.[0];
+  const handleFileUpload = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const file = formData.get("file") as File;
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+    setIsLoading(true);
 
-    const res = await fetch("/api/flashcards/generate", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/flashcards/generate", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
-    setIsLoading(false);
-    console.log(data); // Handle the recognized text as needed
-    setFlashcards((prev) => {
-      const raw = data.flashcards;
+      const data = await res.json();
 
-      // Usuń początkowy i końcowy cudzysłów, jeśli są
-      let cleaned = raw.trim();
-      if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
-        cleaned = cleaned.slice(1, -1);
+      let raw = data.flashcards?.trim() ?? "";
+
+      // Clean up AI response for safe parsing
+      if (raw.startsWith('"') && raw.endsWith('"')) {
+        raw = raw.slice(1, -1);
       }
 
-      // Zamień wszystkie pojedyncze cudzysłowy wokół kluczy na podwójne
-      // Uwaga: To bardzo uproszczone i działa tylko na poprawnym JS-like obiekcie
-      cleaned = cleaned
-        .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":') // klucze w ""
-        .replace(/\\?"/g, '\\"'); // escape cudzysłowy w wartościach
+      raw = raw
+        .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+        .replace(/\\?"/g, '\\"')
+        .replace(/\\"/g, '"');
 
-      // Popraw potencjalnie podwójne escapowanie
-      cleaned = cleaned.replace(/\\"/g, '"');
+      const parsed: Flashcard[] = JSON.parse(raw);
 
-      const flashcards = JSON.parse(cleaned) as Flashcard[];
-
-      return [
+      setFlashcards((prev) => [
         ...prev,
-        ...flashcards.map((flashcard, index) => ({
-          ...flashcard,
-          id: prev.length + index,
+        ...parsed.map((fc, i) => ({
+          ...fc,
+          id: prev.length + i,
         })),
-      ];
-    });
+      ]);
+    } catch (error) {
+      console.error("Failed to parse AI response", error);
+    } finally {
+      setIsLoading(false);
+      setIsFileUploaded(false);
+    }
+  };
+
+  const updateDataHandler = () => {
+    updateData((prev: CollectedFlashcardDataType | null) => ({
+      ...prev,
+      flashcards,
+    }));
+  };
+
+  const changeStep = (type: "prev" | "next") => {
+    updateDataHandler();
+    updateCurrentStep((prev: number) =>
+      type === "prev" ? prev - 1 : prev + 1
+    );
   };
 
   return (
@@ -102,14 +122,40 @@ const Flashcards = () => {
               Let <span className="font-normal text-secondary">AI</span> create
               flashcards for you...
             </p>
-            <Input
-              placeholder="Upload a photo"
-              type="file"
-              accept="image/*"
-              inputClassnames="!border !border-dark/10 text-dark/60 cursor-pointer hover:!border-primary"
-              icon={<Download className="text-dark/30" />}
-              onChange={handleFileChange}
-            />
+            <div>
+              <form onSubmit={handleFileUpload} className="space-y-5">
+                <Input
+                  placeholder="Upload a photo"
+                  name="file"
+                  id="file"
+                  type="file"
+                  accept="image/*"
+                  inputClassnames="!border !border-dark/10 text-dark/60 cursor-pointer hover:!border-primary"
+                  icon={<Download className="text-dark/30" />}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    file ? setIsFileUploaded(true) : setIsFileUploaded(false);
+                  }}
+                />
+                <Textarea
+                  label=""
+                  placeholder="Give AI some hints about your flashcards. It will help it to create better flashcards for you! You can tell what is in the photo, what is the topic of your flashcards, etc."
+                  styles="border border-dark/10 rounded-md mt-2"
+                  rows={3}
+                  name="description"
+                  id="description"
+                />
+                <div className="w-full text-center mt-6">
+                  <Button
+                    type="submit"
+                    styles="bg-transparent !text-dark border !border-dark/10 hover:bg-dark/5 !font-light text-lg disabled:opacity-50 disabled:hover:bg-transparent cursor-pointer"
+                    disabled={!isFileUploaded}
+                  >
+                    Generate
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
           <div className="space-y-2">
             <p className="font-light">
@@ -131,8 +177,7 @@ const Flashcards = () => {
           </div>
           <div className="w-full flex place-content-center">
             <Button
-              variant="outline"
-              className="cursor-pointer hover:bg-secondary/20 duration-300 font-light text-lg py-5"
+              styles="!text-dark cursor-pointer border border-dark/10 hover:bg-dark/5 duration-300 font-light text-lg bg-transparent"
               onClick={addFlashcard}
               disabled={isLoading}
             >
@@ -146,6 +191,31 @@ const Flashcards = () => {
           <Loader />
         </div>
       )}
+      <div className="flex justify-between">
+        <div className="">
+          <Button
+            disabled={isLoading}
+            styles="bg-transparent font-normal !text-dark border border-dark/10 cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+            onClick={() => changeStep("prev")}
+          >
+            Back
+          </Button>
+        </div>
+        <div className="">
+          <Button
+            disabled={
+              isLoading ||
+              flashcards.length === 0 ||
+              flashcards[0].question === "" ||
+              flashcards[0].answer === ""
+            }
+            styles="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+            onClick={() => changeStep("next")}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

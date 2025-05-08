@@ -2,19 +2,14 @@
 import React, { useState, useEffect } from "react";
 import FlashcardData from "./flashcard-data-form";
 import Flashcards from "./flashcards";
-
-export type CollectedDataType = {
-  title: string;
-  description?: string;
-  privacy: "public" | "private";
-  category?: string[];
-};
+import { CollectedFlashcardDataType } from "@/types";
+import FlashcardSummary from "./flashcard-summary";
 
 const Steps = () => {
-  const [steps, setSteps] = useState(4);
+  const [steps, setSteps] = useState(3);
   const [currentStep, setCurrentStep] = useState(0);
   const [collectedData, setCollectedData] =
-    useState<CollectedDataType | null>();
+    useState<CollectedFlashcardDataType | null>();
 
   let content;
 
@@ -24,16 +19,32 @@ const Steps = () => {
         <FlashcardData
           updateData={setCollectedData}
           updateCurrentStep={setCurrentStep}
+          currentData={collectedData}
         />
       );
       break;
     case 1:
-      content = <Flashcards />;
+      content = (
+        <Flashcards
+          updateData={setCollectedData}
+          updateCurrentStep={setCurrentStep}
+          currentData={collectedData}
+        />
+      );
+      break;
+    case 2:
+      content = (
+        <FlashcardSummary
+          updateData={setCollectedData}
+          updateCurrentStep={setCurrentStep}
+          currentData={collectedData}
+        />
+      );
   }
 
-  useEffect(() => {
-    console.log(collectedData);
-  }, [collectedData]);
+  // useEffect(() => {
+  //   console.log(collectedData);
+  // }, [collectedData]);
 
   return (
     <div className="grid gap-16 py-8">
@@ -46,7 +57,7 @@ const Steps = () => {
                 index <= currentStep ? "bg-secondary" : "bg-primary/20"
               } ${
                 index === currentStep
-                  ? "after:content-[''] after:absolute after:top-0 after:left-0 after:blur-sm after:bg-secondary after:size-7 after:rounded-full after:-z-10"
+                  ? "after:content-[''] after:absolute after:top-[-2px] after:left-[-2px] after:blur-sm after:bg-secondary/80 after:size-8 after:rounded-full "
                   : ""
               } size-7 rounded-full`}
             />

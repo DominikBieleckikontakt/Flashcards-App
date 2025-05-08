@@ -7,6 +7,8 @@ type TextareaProps = {
   ariaInvalid?: boolean;
   registerProps?: any;
   errors?: any;
+  name?: string;
+  id?: string;
   value?: string;
   styles?: string;
   textareaClassnames?: string;
@@ -21,6 +23,8 @@ const Textarea = ({
   placeholder,
   registerProps,
   ariaInvalid,
+  name,
+  id,
   errors,
   styles,
   value,
@@ -43,14 +47,15 @@ const Textarea = ({
         autoComplete="off"
         {...registerProps}
         defaultValue={value}
+        name={name}
         rows={rows}
         cols={cols}
         aria-invalid={ariaInvalid}
         className={clsx(
           textareaClassnames,
-          "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary"
+          "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border border-transparent focus:border-primary"
         )}
-        id={label?.trim().toLocaleLowerCase()}
+        id={id || label?.trim().toLocaleLowerCase()}
       ></textarea>
       {errors && <p className="text-red-500 font-bold">{errors}</p>}
     </div>

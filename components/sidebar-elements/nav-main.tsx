@@ -1,22 +1,14 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
-
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export function NavMain({
@@ -29,6 +21,9 @@ export function NavMain({
     isActive?: boolean;
   }[];
 }) {
+  const pathname = usePathname();
+  const isActive = (url: string) => pathname === url;
+
   return (
     <SidebarGroup className="">
       <SidebarMenu className="flex flex-col gap-3">
@@ -41,10 +36,12 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <Link href={`${item.url}`} className="">
+                <Link href={`${item.url}`}>
                   <SidebarMenuButton
                     tooltip={item.name}
-                    className="cursor-pointer flex items-center justify-start text-black/80"
+                    className={`${
+                      isActive(item.url) ? "bg-secondary/10" : ""
+                    } cursor-pointer flex items-center justify-start text-black/80`}
                   >
                     {item.icon && item.icon}
                     <span>{item.name}</span>

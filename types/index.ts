@@ -51,3 +51,33 @@ export type DatePickerProps = {
   onChange?: (date: Date | undefined) => void;
   name?: string;
 };
+
+export type CollectedFlashcardDataType = {
+  title: string;
+  description?: string;
+  privacy: "public" | "private";
+  category?: string[];
+  flashcards?: {
+    id: number;
+    question: string;
+    answer: string;
+  }[];
+};
+
+export type FlashcardsProps = {
+  updateData: (data: any) => void;
+  updateCurrentStep: (data: any) => void;
+  currentData?: CollectedFlashcardDataType | null;
+};
+
+export type FlashcardSet = {
+  title: string;
+  description?: string;
+  privacy: "public" | "private";
+  category?: string[];
+  flashcards: {
+    id: number;
+    question: string;
+    answer: string;
+  }[];
+};
