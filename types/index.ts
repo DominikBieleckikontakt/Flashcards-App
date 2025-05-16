@@ -68,6 +68,7 @@ export type FlashcardsProps = {
   updateData: (data: any) => void;
   updateCurrentStep: (data: any) => void;
   currentData?: CollectedFlashcardDataType | null;
+  currentStep?: number;
 };
 
 export type FlashcardSet = {

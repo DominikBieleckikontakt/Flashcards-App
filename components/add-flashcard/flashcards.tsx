@@ -18,6 +18,7 @@ const Flashcards = ({
   updateData,
   updateCurrentStep,
   currentData,
+  currentStep,
 }: FlashcardsProps) => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>(
     currentData?.flashcards || [
@@ -104,9 +105,21 @@ const Flashcards = ({
 
   const changeStep = (type: "prev" | "next") => {
     updateDataHandler();
-    updateCurrentStep((prev: number) =>
-      type === "prev" ? prev - 1 : prev + 1
-    );
+
+    updateData((prev: CollectedFlashcardDataType) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        flashcards: prev.flashcards?.filter(
+          (card) => card.question.trim() !== "" && card.answer.trim() !== ""
+        ),
+      };
+    });
+
+    type === "prev"
+      ? updateCurrentStep(currentStep! - 1)
+      : updateCurrentStep(currentStep! + 1);
   };
 
   return (

@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
 import FlashcardData from "./flashcard-data-form";
 import Flashcards from "./flashcards";
 import { CollectedFlashcardDataType } from "@/types";
@@ -12,6 +14,12 @@ const Steps = () => {
   const [collectedData, setCollectedData] =
     useState<CollectedFlashcardDataType | null>();
   const [isCompleted, setIsCompleted] = useState(false);
+  const [direction, setDirection] = useState<"forward" | "backward">("forward");
+
+  const goToStep = (step: number) => {
+    setDirection(step > currentStep ? "forward" : "backward");
+    setCurrentStep(step);
+  };
 
   let content;
 
@@ -20,8 +28,9 @@ const Steps = () => {
       content = (
         <FlashcardData
           updateData={setCollectedData}
-          updateCurrentStep={setCurrentStep}
+          updateCurrentStep={goToStep}
           currentData={collectedData}
+          currentStep={currentStep}
         />
       );
       break;
@@ -29,8 +38,9 @@ const Steps = () => {
       content = (
         <Flashcards
           updateData={setCollectedData}
-          updateCurrentStep={setCurrentStep}
+          updateCurrentStep={goToStep}
           currentData={collectedData}
+          currentStep={currentStep}
         />
       );
       break;
@@ -38,9 +48,10 @@ const Steps = () => {
       content = (
         <FlashcardSummary
           updateData={setCollectedData}
-          updateCurrentStep={setCurrentStep}
+          updateCurrentStep={goToStep}
           currentData={collectedData}
           setCompleted={setIsCompleted}
+          currentStep={currentStep}
         />
       );
       break;
@@ -48,7 +59,8 @@ const Steps = () => {
       content = (
         <FlashcardCallback
           isCompleted={isCompleted}
-          updateCurrentStep={setCurrentStep}
+          updateCurrentStep={goToStep}
+          currentStep={currentStep}
         />
       );
       break;

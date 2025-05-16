@@ -15,6 +15,7 @@ const FlashcardSummary = ({
   updateCurrentStep,
   currentData,
   setCompleted,
+  currentStep,
 }: FlashcardSummaryProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleFinish = async () => {
@@ -102,7 +103,7 @@ const FlashcardSummary = ({
             <div className="">
               <Button
                 styles="bg-transparent font-normal !text-dark border border-dark/10 cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
-                onClick={() => updateCurrentStep((prev: number) => prev - 1)}
+                onClick={() => updateCurrentStep(currentStep! - 1)}
               >
                 Back
               </Button>

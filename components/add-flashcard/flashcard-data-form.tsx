@@ -22,6 +22,7 @@ const FlashcardData = ({
   updateData,
   updateCurrentStep,
   currentData,
+  currentStep,
 }: FlashcardsProps) => {
   const {
     register,
@@ -52,7 +53,7 @@ const FlashcardData = ({
       privacy: data.privacy,
       category: data.category,
     }));
-    updateCurrentStep((prev: number) => prev + 1);
+    updateCurrentStep(currentStep! + 1);
   };
 
   return (
@@ -133,7 +134,18 @@ const FlashcardData = ({
             <SelectDropdown
               value={field.value}
               onChange={field.onChange}
-              entries={["Tech", "Health", "Education", "Art", "Business"]}
+              entries={[
+                "Language",
+                "Biology",
+                "Chemistry",
+                "Math",
+                "IT",
+                "Physics",
+                "History",
+                "Geography",
+                "Art",
+                "Music",
+              ]}
             />
           )}
         />
