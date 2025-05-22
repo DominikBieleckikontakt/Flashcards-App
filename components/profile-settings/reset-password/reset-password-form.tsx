@@ -77,7 +77,7 @@ const ResetPasswordForm = () => {
 
   return (
     <form
-      className="max-w-[60rem] mx-auto rounded-lg p-5 border border-text-black/10 space-y-8"
+      className="min-w-[20rem] lg:min-w-[40rem] mx-auto rounded-lg p-5 border border-border space-y-8"
       onSubmit={handleSubmit(onSubmitHandler)}
       noValidate
     >
@@ -92,7 +92,7 @@ const ResetPasswordForm = () => {
             placeholder="Enter your current password"
             label="Current password"
             registerProps={register("currentPassword")}
-            inputClassnames="bg-text-black/5"
+            inputClassnames="bg-dark/5"
             ariaInvalid={Boolean(errors.currentPassword)}
             errors={errors?.currentPassword?.message}
           />
@@ -101,7 +101,7 @@ const ResetPasswordForm = () => {
             placeholder="Enter your new password"
             label="New password"
             registerProps={register("newPassword")}
-            inputClassnames="bg-text-black/5"
+            inputClassnames="bg-dark/5"
             ariaInvalid={Boolean(errors.newPassword)}
             errors={errors?.newPassword?.message}
           />
@@ -110,7 +110,7 @@ const ResetPasswordForm = () => {
             placeholder="Confirm your new password"
             label="Confirm new password"
             registerProps={register("confirmNewPassword")}
-            inputClassnames="bg-text-black/5"
+            inputClassnames="bg-dark/5"
             ariaInvalid={Boolean(errors.confirmNewPassword)}
             errors={errors?.confirmNewPassword?.message}
           />

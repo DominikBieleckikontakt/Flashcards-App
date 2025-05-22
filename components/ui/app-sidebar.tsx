@@ -50,7 +50,7 @@ const data = {
     },
     {
       name: "Explore flashcards",
-      url: "/explore",
+      url: "/flashcards/explore",
       icon: <Search />,
     },
     {

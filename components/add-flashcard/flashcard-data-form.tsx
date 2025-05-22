@@ -70,7 +70,7 @@ const FlashcardData = ({
         placeholder="Enter the title of your flashcards set"
         errors={errors.title?.message}
         {...register("title")}
-        inputClassnames="!border-dark/10 !border focus:!border-primary"
+        inputClassnames="!border-border !border focus:!border-primary"
         labelClassnames="text-dark/70"
         styles="!gap-1"
       />
@@ -81,7 +81,7 @@ const FlashcardData = ({
         placeholder="Enter the description of your flashcards set"
         errors={errors.description?.message}
         {...register("description")}
-        textareaClassnames="!border-dark/10 !border focus:!border-primary"
+        textareaClassnames="!border-border !border focus:!border-primary"
         labelClassnames="text-dark/70"
         styles="!gap-1"
         rows={4}

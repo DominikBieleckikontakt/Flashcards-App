@@ -39,10 +39,5 @@ export const getProfilePicture = async (userId: string) => {
     .from("profile.pictures")
     .getPublicUrl(userId);
 
-  // if(error) {
-  //   console.error(error);
-  //   return null;
-  // }
-
   return data.publicUrl;
 };

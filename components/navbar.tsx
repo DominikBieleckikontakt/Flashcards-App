@@ -83,7 +83,7 @@ const Navbar = () => {
                     <input
                       id="search"
                       name="search"
-                      className="block w-full rounded-md py-1.5 pl-10 pr-3 text-dark ring-1 ring-inset ring-dark/10 placeholder:text-dark/60 focus:ring focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 outline-0 border-0"
+                      className="block w-full rounded-md py-1.5 pl-10 pr-3 text-dark ring-1 ring-inset ringborder placeholder:text-dark/60 focus:ring focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 outline-0 border-0"
                       placeholder="Search"
                       type="search"
                     />

@@ -76,9 +76,50 @@ export type FlashcardSet = {
   description?: string;
   privacy: "public" | "private";
   category?: string[];
-  flashcards: {
+  flashcards?: {
     id: number;
     question: string;
     answer: string;
+  }[];
+};
+
+export type FlashcardsListItemProps = {
+  setId: string;
+  title: string;
+  description: string;
+  author: string;
+  authorId: string;
+  date: string;
+  categories: string[];
+  numberOfFlashcards: number;
+  profilePicture: string | null;
+  isFavorite?: boolean;
+};
+
+export type FlashcardSetProp = {
+  id: string;
+  title: string;
+  description: string | null;
+  privacy: string;
+  category: string[] | null;
+  userId: string;
+  createdAt: Date | null;
+};
+
+export type AuthorProp = {
+  id: string;
+  name: string;
+  lastName: string;
+  username: string;
+  email: string;
+  profilePicture: string | null;
+};
+
+export type FlashcardsListProps = {
+  flashcardsSets: {
+    set: FlashcardSetProp;
+    author: AuthorProp;
+    isFavorite?: boolean;
+    numberOfFlashcards?: number;
   }[];
 };

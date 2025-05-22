@@ -44,7 +44,7 @@ export default function SelectDropdown({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full inline-flex justify-between cursor-pointer items-center px-4 py-2 text-sm font-light text-gray-700 bg-white border border-dark/10 rounded-md hover:bg-gray-50"
+        className="w-full inline-flex justify-between cursor-pointer items-center px-4 py-2 text-sm font-light text-gray-700 bg-white border border-border rounded-md hover:bg-gray-50"
       >
         {value.length < 1 ? "Select Categories" : value.join(", ")}
         <svg
@@ -63,7 +63,7 @@ export default function SelectDropdown({
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-full rounded-md bg-white ring-1 ring-dark/10 ring-opacity-5 p-2 space-y-2 overflow-auto max-h-36">
+        <div className="absolute z-10 mt-2 w-full rounded-md bg-white ring-1 ringborder ring-opacity-5 p-2 space-y-2 overflow-auto max-h-36">
           {entries.map((entry: string) => (
             <label key={entry} className="flex items-center space-x-2">
               <input

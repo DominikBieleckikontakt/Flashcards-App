@@ -43,7 +43,7 @@ const FlashcardsInput = ({
       <Input
         placeholder="Enter content of the first side"
         type="text"
-        inputClassnames="!border !border-dark/10 focus:!border-primary"
+        inputClassnames="!border !border-border focus:!border-primary"
         styles="w-full"
         value={firstSide}
         onChange={(e) => {
@@ -61,7 +61,7 @@ const FlashcardsInput = ({
       <Input
         placeholder="Enter content of the second side"
         type="text"
-        inputClassnames="!border !border-dark/10 focus:!border-primary"
+        inputClassnames="!border !border-border focus:!border-primary"
         styles="w-full"
         value={secondSide}
         onChange={(e) => {

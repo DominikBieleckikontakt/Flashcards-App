@@ -14,9 +14,6 @@ const NewFlashcardsPage = async () => {
   return (
     <main className="my-8">
       <div className="rounded-lg p-8">
-        {/* <h2 className="text-2xl font-light md:w-4/6 md:mx-auto">
-          Add new flashcards set
-        </h2> */}
         <Steps />
       </div>
     </main>

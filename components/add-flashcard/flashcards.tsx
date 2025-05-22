@@ -143,7 +143,7 @@ const Flashcards = ({
                   id="file"
                   type="file"
                   accept="image/*"
-                  inputClassnames="!border !border-dark/10 text-dark/60 cursor-pointer hover:!border-primary"
+                  inputClassnames="!border !border-border text-dark/60 cursor-pointer hover:!border-primary"
                   icon={<Download className="text-dark/30" />}
                   onChange={(e) => {
                     const file = e.target.files?.[0];
@@ -153,7 +153,7 @@ const Flashcards = ({
                 <Textarea
                   label=""
                   placeholder="Give AI some hints about your flashcards. It will help it to create better flashcards for you! You can tell what is in the photo, what is the topic of your flashcards, etc."
-                  styles="border border-dark/10 rounded-md mt-2"
+                  styles="border border-border rounded-md mt-2"
                   rows={3}
                   name="description"
                   id="description"
@@ -161,7 +161,7 @@ const Flashcards = ({
                 <div className="w-full text-center mt-6">
                   <Button
                     type="submit"
-                    styles="bg-transparent !text-dark border !border-dark/10 hover:bg-dark/5 !font-light text-lg disabled:opacity-50 disabled:hover:bg-transparent cursor-pointer"
+                    styles="bg-transparent !text-dark border !border-border hover:bg-dark/5 !font-light text-lg disabled:opacity-50 disabled:hover:bg-transparent cursor-pointer"
                     disabled={!isFileUploaded}
                   >
                     Generate
@@ -190,7 +190,7 @@ const Flashcards = ({
           </div>
           <div className="w-full flex place-content-center">
             <Button
-              styles="!text-dark cursor-pointer border border-dark/10 hover:bg-dark/5 duration-300 font-light text-lg bg-transparent"
+              styles="!text-dark cursor-pointer border border-border hover:bg-dark/5 duration-300 font-light text-lg bg-transparent"
               onClick={addFlashcard}
               disabled={isLoading}
             >
@@ -208,7 +208,7 @@ const Flashcards = ({
         <div className="">
           <Button
             disabled={isLoading}
-            styles="bg-transparent font-normal !text-dark border border-dark/10 cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+            styles="bg-transparent font-normal !text-dark border border-border cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
             onClick={() => changeStep("prev")}
           >
             Back

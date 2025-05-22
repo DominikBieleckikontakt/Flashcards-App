@@ -3,7 +3,8 @@ import React from "react";
 
 const ResetPasswordPage = () => {
   return (
-    <main className="mx-auto max-sm:px-5 max-xl:px-16 my-36 lg:max-w-[1200px]">
+    //mx-auto max-sm:px-5 max-xl:px-16 my-36 lg:max-w-[1200px]
+    <main className="flex justify-center items-center min-h-[calc(100%-6rem)]">
       <ResetPasswordForm />
     </main>
   );

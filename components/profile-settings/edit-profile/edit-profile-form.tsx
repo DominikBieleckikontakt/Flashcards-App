@@ -114,7 +114,7 @@ const EditProfileForm = () => {
 
   return (
     <form
-      className="max-w-[70rem] lg:min-w-[60rem] mx-auto rounded-lg p-5 border border-text-black/10 space-y-8"
+      className="max-w-[70rem] lg:min-w-[60rem] mx-auto rounded-lg p-5 border border-border space-y-8"
       onSubmit={handleSubmit(onSubmitHandler)}
       noValidate
     >

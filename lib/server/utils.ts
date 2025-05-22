@@ -3,10 +3,18 @@ import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
-import { eq } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { type User, type Session, sessionTable, userTable } from "@/db/schema";
+import {
+  type User,
+  type Session,
+  sessionTable,
+  userTable,
+  flashcardSetsTable,
+  flashcardSetToFlashcardsTable,
+  favorites,
+} from "@/db/schema";
 
 export type SessionValidationResult =
   | { session: Session; user: User }
@@ -75,4 +83,63 @@ export const invalidateSession = async (sessionId: string): Promise<void> => {
 
 export const invalidateAllSessions = async (userId: string): Promise<void> => {
   await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
+};
+
+export const getFlashcards = async (
+  page: number,
+  pageSize: number,
+  userId?: string
+) => {
+  const offset = (page - 1) * pageSize;
+
+  const flashcardsSets = await db
+    .select({
+      set: flashcardSetsTable,
+      author: {
+        id: userTable.id,
+        name: userTable.firstname,
+        lastName: userTable.lastname,
+        username: userTable.username,
+        email: userTable.email,
+        profilePicture: userTable.profilePicture,
+      },
+    })
+    .from(flashcardSetsTable)
+    .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
+    .orderBy(desc(flashcardSetsTable.createdAt))
+    .limit(pageSize)
+    .offset(offset);
+
+  const setIds = flashcardsSets.map((s) => s.set.id);
+
+  const flashcardCounts = await db
+    .select({
+      setId: flashcardSetToFlashcardsTable.setId,
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(flashcardSetToFlashcardsTable)
+    .where(inArray(flashcardSetToFlashcardsTable.setId, setIds))
+    .groupBy(flashcardSetToFlashcardsTable.setId);
+
+  const countsMap = new Map(flashcardCounts.map((fc) => [fc.setId, fc.count]));
+
+  const favoriteIds = userId
+    ? await db
+        .select({ flashcardSetId: favorites.flashcardSetId })
+        .from(favorites)
+        .where(
+          and(
+            inArray(favorites.flashcardSetId, setIds),
+            eq(favorites.userId, userId)
+          )
+        )
+    : [];
+
+  const favoriteSet = new Set(favoriteIds.map((f) => f.flashcardSetId));
+
+  return flashcardsSets.map((s) => ({
+    ...s,
+    isFavorite: favoriteSet.has(s.set.id),
+    numberOfFlashcards: countsMap.get(s.set.id) || 0,
+  }));
 };
