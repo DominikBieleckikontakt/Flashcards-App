@@ -24,7 +24,6 @@ const FlashcardsListItem = ({
   const [isUserFavorite, setIsUserFavorite] = useState(isFavorite);
 
   const user = useUserStore((state) => state.user)!;
-  console.log(isFavorite);
 
   const toggleFavorites = async () => {
     setIsUserFavorite((prev) => !prev);
@@ -35,7 +34,7 @@ const FlashcardsListItem = ({
   return (
     <Link
       href="#"
-      className="border border-border rounded-lg p-4 space-y-3 h-full flex flex-col justify-between hover:shadow-sm cursor-pointer duration-300 hover:border-secondary"
+      className="border border-border rounded-lg p-4 space-y-3 w-full h-full flex flex-col justify-between hover:shadow-sm cursor-pointer duration-300 hover:border-secondary"
     >
       <div className="space-y-2">
         <div>
@@ -89,7 +88,7 @@ const FlashcardsListItem = ({
           >
             <Star
               className={`text-dark/50 hover:text-secondary cursor-pointer ${
-                isUserFavorite ? "text-secondary" : ""
+                isUserFavorite ? "text-secondary fill-secondary" : ""
               }`}
             />
           </button>

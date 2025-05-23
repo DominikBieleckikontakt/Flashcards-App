@@ -102,7 +102,7 @@ const FlashcardSummary = ({
           <div className="flex justify-between">
             <div className="">
               <Button
-                styles="bg-transparent font-normal !text-dark border border-border cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+                className="bg-transparent font-normal !text-dark border border-border cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
                 onClick={() => updateCurrentStep(currentStep! - 1)}
               >
                 Back
@@ -110,7 +110,7 @@ const FlashcardSummary = ({
             </div>
             <div className="">
               <Button
-                styles="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+                className="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
                 onClick={() => handleFinish()}
               >
                 Finish

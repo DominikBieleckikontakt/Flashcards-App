@@ -115,11 +115,9 @@ export type AuthorProp = {
   profilePicture: string | null;
 };
 
-export type FlashcardsListProps = {
-  flashcardsSets: {
-    set: FlashcardSetProp;
-    author: AuthorProp;
-    isFavorite?: boolean;
-    numberOfFlashcards?: number;
-  }[];
+export type FlashcardsList = {
+  set: FlashcardSetProp;
+  author: AuthorProp;
+  isFavorite?: boolean;
+  numberOfFlashcards?: number;
 };

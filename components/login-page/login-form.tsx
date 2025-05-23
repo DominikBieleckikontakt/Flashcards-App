@@ -86,7 +86,7 @@ const LoginForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting || (!isValid && true)}
-            styles="disabled:opacity-50 disabled:hover:bg-secondary bg-secondary hover:bg-secondary/50 w-full"
+            className="disabled:opacity-50 disabled:hover:bg-secondary bg-secondary hover:bg-secondary/50 w-full"
           >
             {isSubmitting || isLoading ? (
               <Loader

@@ -173,7 +173,7 @@ const Navbar = () => {
                 ) : (
                   <Button
                     type="button"
-                    styles="bg-gradient-to-br from-primary to-black/10 hover:to-primary hover:scale-105 transition-all duration-300"
+                    className="bg-gradient-to-br from-primary to-black/10 hover:to-primary hover:scale-105 transition-all duration-300"
                   >
                     <Link href="/login">Get started</Link>
                   </Button>
@@ -263,7 +263,7 @@ const Navbar = () => {
               ) : (
                 <Button
                   type="button"
-                  styles="block lg:hidden bg-gradient-to-br from-primary to-black/10 hover:to-primary hover:scale-105 transition-all duration-300 mx-5"
+                  className="block lg:hidden bg-gradient-to-br from-primary to-black/10 hover:to-primary hover:scale-105 transition-all duration-300 mx-5"
                 >
                   <Link href="/login" className="w-full h-full">
                     Get started

@@ -161,7 +161,7 @@ const Flashcards = ({
                 <div className="w-full text-center mt-6">
                   <Button
                     type="submit"
-                    styles="bg-transparent !text-dark border !border-border hover:bg-dark/5 !font-light text-lg disabled:opacity-50 disabled:hover:bg-transparent cursor-pointer"
+                    className="bg-transparent !text-dark border !border-border hover:bg-dark/5 !font-light text-lg disabled:opacity-50 disabled:hover:bg-transparent cursor-pointer"
                     disabled={!isFileUploaded}
                   >
                     Generate
@@ -190,7 +190,7 @@ const Flashcards = ({
           </div>
           <div className="w-full flex place-content-center">
             <Button
-              styles="!text-dark cursor-pointer border border-border hover:bg-dark/5 duration-300 font-light text-lg bg-transparent"
+              className="!text-dark cursor-pointer border border-border hover:bg-dark/5 duration-300 font-light text-lg bg-transparent"
               onClick={addFlashcard}
               disabled={isLoading}
             >
@@ -208,7 +208,7 @@ const Flashcards = ({
         <div className="">
           <Button
             disabled={isLoading}
-            styles="bg-transparent font-normal !text-dark border border-border cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+            className="bg-transparent font-normal !text-dark border border-border cursor-pointer hover:bg-dark/5 disabled:opacity-50 disabled:hover:bg-secondary px-8"
             onClick={() => changeStep("prev")}
           >
             Back
@@ -222,7 +222,7 @@ const Flashcards = ({
               flashcards[0].question === "" ||
               flashcards[0].answer === ""
             }
-            styles="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
+            className="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
             onClick={() => changeStep("next")}
           >
             Next

@@ -154,7 +154,7 @@ const FlashcardData = ({
         <Button
           type="submit"
           disabled={!isValid || isSubmitting}
-          styles="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary"
+          className="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary"
         >
           Next
         </Button>

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 type ButtonProps = {
@@ -5,13 +6,23 @@ type ButtonProps = {
   type?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
   disabled?: boolean;
-  styles?: string;
+  className?: string;
 };
 
-const Button = ({ children, type, onClick, disabled, styles }: ButtonProps) => {
+const Button = ({
+  children,
+  type,
+  onClick,
+  disabled,
+  className,
+}: ButtonProps) => {
   return (
     <button
-      className={` ${styles} bg-primary text-white font-bold rounded-md px-8 py-2 cursor-pointer duration-300 disabled:cursor-default`}
+      // className={` ${className} bg-primary text-white font-bold rounded-md px-8 py-2 cursor-pointer duration-300 disabled:cursor-default`}
+      className={clsx(
+        "bg-primary text-white font-bold rounded-md px-8 py-2 cursor-pointer duration-300 disabled:cursor-default",
+        className
+      )}
       type={type}
       onClick={onClick}
       disabled={disabled}

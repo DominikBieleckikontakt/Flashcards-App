@@ -202,7 +202,7 @@ const EditProfileForm = () => {
             <Button
               type="submit"
               disabled={isSubmitting || !isValid}
-              styles="disabled:opacity-50 disabled:hover:bg-secondary bg-primary hover:bg-primary/80 w-1/2"
+              className="disabled:opacity-50 disabled:hover:bg-secondary bg-primary hover:bg-primary/80 w-1/2"
             >
               {isSubmitting || isLoading ? (
                 <Loader
@@ -213,7 +213,7 @@ const EditProfileForm = () => {
               )}
             </Button>
             <Link href="/dashboard/reset-password" className="w-1/2">
-              <Button styles="disabled:opacity-50 disabled:hover:bg-secondary bg-red-400 hover:bg-red-500 w-full">
+              <Button className="disabled:opacity-50 disabled:hover:bg-secondary bg-red-400 hover:bg-red-500 w-full">
                 Reset Password
               </Button>
             </Link>

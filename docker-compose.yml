@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  app:
+    image: sha256:945a96fbaca746b5e59d6015a5e612ce1f767f2c964ed78b04ed5372b93de49e
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - PORT=3000
+    command: npm run dev

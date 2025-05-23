@@ -143,3 +143,13 @@ export const getFlashcards = async (
     numberOfFlashcards: countsMap.get(s.set.id) || 0,
   }));
 };
+
+export const getFlashcardsSetsNumber = async () => {
+  const count = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(flashcardSetsTable);
+
+  return count[0].count;
+};
