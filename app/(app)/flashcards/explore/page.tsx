@@ -1,13 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { getCurrentSession } from "@/actions/cookies";
 import { notFound, redirect } from "next/navigation";
 import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 import { getFlashcards, getFlashcardsSetsNumber } from "@/lib/server/utils";
+import { PAGE_SIZE } from "@/constants";
 
 const ExploreFlashcardsPage = async ({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: { page?: string; categories?: string[]; sort?: string };
 }) => {
   const { user } = await getCurrentSession();
 
@@ -15,29 +16,38 @@ const ExploreFlashcardsPage = async ({
     redirect("/login");
   }
 
-  const pageSize = 9;
-  const { page } = await searchParams;
+  const { categories, page, sort } = await searchParams;
+
+  const selectedCategories = Array.isArray(categories)
+    ? categories
+    : categories
+    ? [categories]
+    : [];
+
+  const selectedSort = sort || "Most Popular";
+
   const currentPage = parseInt(page || "1", 10);
 
   if (currentPage < 1) return notFound();
 
-  const flashcardsSets = await getFlashcards(currentPage, pageSize, user.id);
-  const totalFlashcards = await getFlashcardsSetsNumber();
-
-  const totalPages = Math.ceil(totalFlashcards / pageSize);
-  const hasNextPage = currentPage < totalPages;
-  const hasPreviousPage = currentPage > 1;
-
-  console.log(totalPages);
+  const flashcardsSets = await getFlashcards(
+    currentPage,
+    PAGE_SIZE,
+    user.id,
+    false,
+    selectedCategories,
+    selectedSort
+  );
+  // const totalFlashcards = await getFlashcardsSetsNumber();
 
   return (
     <main className="flex justify-center items-center">
       <FlashcardsList
-        flashcardsSets={flashcardsSets}
-        hasNextPage={hasNextPage}
-        hasPreviosPage={hasPreviousPage}
-        totalPages={totalPages}
-        currentPage={currentPage}
+        initialFlashcards={flashcardsSets}
+        // hasNextPage={hasNextPage}
+        // hasPreviosPage={hasPreviousPage}
+        // totalPages={totalPages}
+        // currentPage={currentPage}
       />
     </main>
   );

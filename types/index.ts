@@ -84,6 +84,7 @@ export type FlashcardSet = {
 };
 
 export type FlashcardsListItemProps = {
+  index?: number;
   setId: string;
   title: string;
   description: string;
@@ -94,6 +95,7 @@ export type FlashcardsListItemProps = {
   numberOfFlashcards: number;
   profilePicture: string | null;
   isFavorite?: boolean;
+  numberOfFavorites?: number;
 };
 
 export type FlashcardSetProp = {
@@ -118,6 +120,7 @@ export type AuthorProp = {
 export type FlashcardsList = {
   set: FlashcardSetProp;
   author: AuthorProp;
+  favorites?: number;
   isFavorite?: boolean;
   numberOfFlashcards?: number;
 };

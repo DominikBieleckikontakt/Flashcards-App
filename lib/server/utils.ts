@@ -3,7 +3,7 @@ import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -88,7 +88,10 @@ export const invalidateAllSessions = async (userId: string): Promise<void> => {
 export const getFlashcards = async (
   page: number,
   pageSize: number,
-  userId?: string
+  userId?: string,
+  isPrivate?: boolean,
+  categories?: string[] | string[][],
+  sort?: string
 ) => {
   const offset = (page - 1) * pageSize;
 
@@ -103,12 +106,38 @@ export const getFlashcards = async (
         email: userTable.email,
         profilePicture: userTable.profilePicture,
       },
+      favorites: sql<number>`COUNT(${favorites.flashcardSetId})`.as(
+        "favorites"
+      ),
     })
     .from(flashcardSetsTable)
     .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
-    .orderBy(desc(flashcardSetsTable.createdAt))
+    .leftJoin(favorites, eq(favorites.flashcardSetId, flashcardSetsTable.id))
+    .groupBy(flashcardSetsTable.id, userTable.id)
+    .orderBy(
+      sort === "Most Popular"
+        ? desc(sql`favorites`)
+        : sort === "Least Popular"
+        ? asc(sql`favorites`)
+        : sort === "A-Z"
+        ? asc(flashcardSetsTable.title)
+        : desc(flashcardSetsTable.title)
+    )
     .limit(pageSize)
-    .offset(offset);
+    .offset(offset)
+    .where(
+      and(
+        isPrivate !== undefined
+          ? eq(flashcardSetsTable.privacy, isPrivate ? "private" : "public")
+          : undefined,
+        categories && categories.length > 0
+          ? sql`${flashcardSetsTable.category} && ARRAY[${sql.join(
+              categories.map((cat) => sql`${cat}`),
+              sql`, `
+            )}]::text[]`
+          : undefined
+      )
+    );
 
   const setIds = flashcardsSets.map((s) => s.set.id);
 

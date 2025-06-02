@@ -10,6 +10,7 @@ import { Eye, Shield } from "lucide-react";
 import SelectDropdown from "../ui/select-dropdown";
 import Button from "../button";
 import { CollectedFlashcardDataType, FlashcardsProps } from "@/types";
+import { CATEGORIES } from "@/constants";
 
 const formResolver = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -134,18 +135,7 @@ const FlashcardData = ({
             <SelectDropdown
               value={field.value}
               onChange={field.onChange}
-              entries={[
-                "Language",
-                "Biology",
-                "Chemistry",
-                "Math",
-                "IT",
-                "Physics",
-                "History",
-                "Geography",
-                "Art",
-                "Music",
-              ]}
+              entries={CATEGORIES}
             />
           )}
         />
