@@ -15,6 +15,7 @@ import {
   flashcardSetToFlashcardsTable,
   favorites,
 } from "@/db/schema";
+import { getCurrentSession } from "@/actions/cookies";
 
 export type SessionValidationResult =
   | { session: Session; user: User }
@@ -91,53 +92,92 @@ export const getFlashcards = async (
   userId?: string,
   isPrivate?: boolean,
   categories?: string[] | string[][],
-  sort?: string
+  sort?: string,
+  search?: string,
+  favoritesOnly?: boolean,
+  privateOnly?: boolean
 ) => {
   const offset = (page - 1) * pageSize;
+  const { user } = await getCurrentSession();
 
-  const flashcardsSets = await db
-    .select({
-      set: flashcardSetsTable,
-      author: {
-        id: userTable.id,
-        name: userTable.firstname,
-        lastName: userTable.lastname,
-        username: userTable.username,
-        email: userTable.email,
-        profilePicture: userTable.profilePicture,
-      },
-      favorites: sql<number>`COUNT(${favorites.flashcardSetId})`.as(
-        "favorites"
-      ),
-    })
-    .from(flashcardSetsTable)
-    .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
-    .leftJoin(favorites, eq(favorites.flashcardSetId, flashcardSetsTable.id))
-    .groupBy(flashcardSetsTable.id, userTable.id)
-    .orderBy(
-      sort === "Most Popular"
-        ? desc(sql`favorites`)
-        : sort === "Least Popular"
-        ? asc(sql`favorites`)
-        : sort === "A-Z"
-        ? asc(flashcardSetsTable.title)
-        : desc(flashcardSetsTable.title)
-    )
-    .limit(pageSize)
-    .offset(offset)
-    .where(
-      and(
-        isPrivate !== undefined
-          ? eq(flashcardSetsTable.privacy, isPrivate ? "private" : "public")
-          : undefined,
-        categories && categories.length > 0
-          ? sql`${flashcardSetsTable.category} && ARRAY[${sql.join(
-              categories.map((cat) => sql`${cat}`),
-              sql`, `
-            )}]::text[]`
-          : undefined
-      )
-    );
+  const baseSelect = db.select({
+    set: flashcardSetsTable,
+    author: {
+      id: userTable.id,
+      name: userTable.firstname,
+      lastName: userTable.lastname,
+      username: userTable.username,
+      email: userTable.email,
+      profilePicture: userTable.profilePicture,
+    },
+    favorites: sql<number>`COUNT(${favorites.flashcardSetId})`.as("favorites"),
+  });
+
+  const whereConditions = [
+    privateOnly ? eq(flashcardSetsTable.userId, user!.id) : undefined,
+    isPrivate !== undefined
+      ? eq(flashcardSetsTable.privacy, isPrivate ? "private" : "public")
+      : undefined,
+    categories && categories.length > 0
+      ? sql`${flashcardSetsTable.category} && ARRAY[${sql.join(
+          categories.map((cat) => sql`${cat}`),
+          sql`, `
+        )}]::text[]`
+      : undefined,
+    search
+      ? sql`LOWER(${
+          flashcardSetsTable.title
+        }) LIKE ${`%${search.toLowerCase()}%`}`
+      : undefined,
+  ].filter(Boolean);
+
+  // Two versions - based on favoritesOnly
+  const query = favoritesOnly
+    ? baseSelect
+        .from(flashcardSetsTable)
+        .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
+        .innerJoin(
+          favorites,
+          and(
+            eq(favorites.flashcardSetId, flashcardSetsTable.id),
+            eq(favorites.userId, user!.id)
+          )
+        )
+        .where(and(...whereConditions))
+        .groupBy(flashcardSetsTable.id, userTable.id)
+        .orderBy(
+          sort === "Most Popular"
+            ? desc(sql`favorites`)
+            : sort === "Least Popular"
+            ? asc(sql`favorites`)
+            : sort === "A-Z"
+            ? asc(flashcardSetsTable.title)
+            : desc(flashcardSetsTable.title)
+        )
+        .limit(pageSize)
+        .offset(offset)
+    : baseSelect
+        .from(flashcardSetsTable)
+        .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
+        .leftJoin(
+          favorites,
+          eq(favorites.flashcardSetId, flashcardSetsTable.id)
+        )
+        .where(and(...whereConditions))
+        .groupBy(flashcardSetsTable.id, userTable.id)
+        .orderBy(
+          sort === "Most Popular"
+            ? desc(sql`favorites`)
+            : sort === "Least Popular"
+            ? asc(sql`favorites`)
+            : sort === "A-Z"
+            ? asc(flashcardSetsTable.title)
+            : desc(flashcardSetsTable.title)
+        )
+        .limit(pageSize)
+        .offset(offset);
+
+  const flashcardsSets = await query;
 
   const setIds = flashcardsSets.map((s) => s.set.id);
 

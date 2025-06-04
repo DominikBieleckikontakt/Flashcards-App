@@ -2,15 +2,20 @@ import React from "react";
 import { notFound, redirect } from "next/navigation";
 
 import { getCurrentSession } from "@/actions/cookies";
-import { PAGE_SIZE } from "@/constants";
 import { getFlashcards } from "@/lib/server/utils";
+import { PAGE_SIZE } from "@/constants";
 
 import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 
-const ExploreFlashcardsPage = async ({
+const FavoritesPage = async ({
   searchParams,
 }: {
-  searchParams: { page?: string; categories?: string[]; sort?: string };
+  searchParams: {
+    page?: string;
+    categories?: string[];
+    sort?: string;
+    search?: string;
+  };
 }) => {
   const { user } = await getCurrentSession();
 
@@ -18,7 +23,7 @@ const ExploreFlashcardsPage = async ({
     redirect("/login");
   }
 
-  const { categories, page, sort } = await searchParams;
+  const { categories, page, sort, search } = await searchParams;
 
   const selectedCategories = Array.isArray(categories)
     ? categories
@@ -38,14 +43,16 @@ const ExploreFlashcardsPage = async ({
     user.id,
     false,
     selectedCategories,
-    selectedSort
+    selectedSort,
+    search || "",
+    true
   );
 
   return (
     <main className="flex justify-center items-center">
-      <FlashcardsList initialFlashcards={flashcardsSets} />
+      <FlashcardsList initialFlashcards={flashcardsSets} favoritesOnly={true} />
     </main>
   );
 };
 
-export default ExploreFlashcardsPage;
+export default FavoritesPage;

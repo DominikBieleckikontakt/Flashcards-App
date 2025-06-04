@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
 
 import { Eye, EyeOff } from "lucide-react";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 type InputProps = {
   label?: string;
@@ -13,26 +12,6 @@ type InputProps = {
   placeholder: string;
   ariaInvalid?: boolean;
   registerProps?: any; // ReturnType<UseFormRegister<{ email: string; password: string }>>
-  // registerProps?:
-  //   | ReturnType<UseFormRegister<{ email: string; password: string }>>
-  //   | ReturnType<
-  //       UseFormRegister<{
-  //         firstname: string;
-  //         lastname: string;
-  //         username: string;
-  //         email: string;
-  //         password: string;
-  //         confirmPassword: string;
-  //         gender: string;
-  //       }>
-  //     >
-  //   | ReturnType<
-  //       UseFormRegister<{
-  //         currentPassword: string;
-  //         newPassword: string;
-  //         confirmNewPassword: string;
-  //       }>
-  //     >;
   errors?: any;
   styles?: string;
   id?: string;
@@ -88,10 +67,10 @@ const Input = ({
           aria-invalid={ariaInvalid}
           defaultValue={defaultValue}
           value={value}
-          className={clsx(
-            inputClassnames, // Najpierw użytkownikowe klasy, by mogły nadpisywać inne
+          className={cn(
             "backdrop-blur-sm w-full rounded-md p-2 duration-300 outline-0 border-2 border-transparent focus:border-primary",
-            icon && "pl-10"
+            icon && "pl-10",
+            inputClassnames
           )}
           accept={type === "file" ? accept : undefined}
           id={id || label?.trim().toLocaleLowerCase()}

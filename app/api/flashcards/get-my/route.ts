@@ -20,10 +20,12 @@ export async function GET(req: Request) {
     page,
     PAGE_SIZE,
     user.id,
-    false,
+    true,
     categories,
     sort,
-    search
+    search,
+    false,
+    true
   );
 
   return NextResponse.json(

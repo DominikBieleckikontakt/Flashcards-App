@@ -23,7 +23,8 @@ export async function GET(req: Request) {
     false,
     categories,
     sort,
-    search
+    search,
+    true
   );
 
   return NextResponse.json(

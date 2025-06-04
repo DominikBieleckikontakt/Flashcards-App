@@ -16,12 +16,19 @@ import Link from "next/link";
 import FlashcardsControls from "./flashcards-controls";
 import { PAGE_SIZE } from "@/constants";
 import Loader from "../loader";
+import FlashcardsSearchbar from "./flashcards-searchbar";
 
 type FlashcardsListProps = {
   initialFlashcards: FlashcardsListType[];
+  favoritesOnly?: boolean;
+  privateOnly?: boolean;
 };
 
-const FlashcardsList = ({ initialFlashcards }: FlashcardsListProps) => {
+const FlashcardsList = ({
+  initialFlashcards,
+  favoritesOnly,
+  privateOnly,
+}: FlashcardsListProps) => {
   const searchParams = useSearchParams();
 
   const [flashcardsSets, setFlashcardsSets] =
@@ -39,6 +46,9 @@ const FlashcardsList = ({ initialFlashcards }: FlashcardsListProps) => {
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(
     currentPage > 1
   );
+  const [searchQuery, setSearchQuery] = useState<string>(
+    searchParams.get("search") || ""
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,9 +60,13 @@ const FlashcardsList = ({ initialFlashcards }: FlashcardsListProps) => {
       setIsLoading(true);
       const currentParams = new URLSearchParams(searchParams.toString());
 
-      const response = await fetch(
-        `/api/flashcards/get?${currentParams.toString()}`
-      );
+      const response = favoritesOnly
+        ? await fetch(
+            `/api/flashcards/get-favorites?${currentParams.toString()}`
+          )
+        : privateOnly
+        ? await fetch(`/api/flashcards/get-my?${currentParams.toString()}`)
+        : await fetch(`/api/flashcards/get?${currentParams.toString()}`);
       const data = await response.json();
       setFlashcardsSets(data.flashcards);
       setTotalPages(Math.ceil(data.flashcards.length / PAGE_SIZE));
@@ -62,12 +76,16 @@ const FlashcardsList = ({ initialFlashcards }: FlashcardsListProps) => {
     };
 
     fetchFlashcards();
-  }, [searchParams]);
+  }, [searchParams, searchQuery]);
 
   return (
     <div className="w-full mx-5 2xl:mx-32 my-12 grid gap-4">
-      <div className="w-full max-w-full">
+      <div className="w-full max-w-full flex items-center justify-between flex-wrap gap-5">
         <FlashcardsControls toggleLoading={setIsLoading} />
+        <FlashcardsSearchbar
+          changeQuery={setSearchQuery}
+          toggleLoading={setIsLoading}
+        />
       </div>
       {isLoading && (
         <div className="flex justify-center items-center w-full h-96">

@@ -55,7 +55,7 @@ const data = {
     },
     {
       name: "Favorites",
-      url: "/favorites",
+      url: "/flashcards/favorites",
       icon: <Star />,
     },
     {
