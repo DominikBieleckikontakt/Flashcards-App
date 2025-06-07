@@ -51,7 +51,9 @@ const FlashcardsListItem = ({
       transition={{ duration: 0.3, delay: index ? index * 0.1 : 0 }}
     >
       <Link
-        href="#"
+        href={`/flashcard-set/${setId}/${title
+          .replaceAll(" ", "-")
+          .toLocaleLowerCase()}`}
         className="w-full p-4 h-full space-y-3 flex flex-col justify-between"
       >
         <div className="space-y-2">

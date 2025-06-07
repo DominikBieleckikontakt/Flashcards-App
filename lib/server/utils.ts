@@ -14,6 +14,7 @@ import {
   flashcardSetsTable,
   flashcardSetToFlashcardsTable,
   favorites,
+  flashcardsTable,
 } from "@/db/schema";
 import { getCurrentSession } from "@/actions/cookies";
 
@@ -221,4 +222,28 @@ export const getFlashcardsSetsNumber = async () => {
     .from(flashcardSetsTable);
 
   return count[0].count;
+};
+
+export const getFlashcardSetById = async (id: string) => {
+  const flashcards = await db
+    .select({
+      id: flashcardsTable.id,
+      question: flashcardsTable.question,
+      answer: flashcardsTable.answer,
+    })
+    .from(flashcardSetToFlashcardsTable)
+    .innerJoin(
+      flashcardsTable,
+      eq(flashcardSetToFlashcardsTable.flashcardId, flashcardsTable.id)
+    )
+    .where(eq(flashcardSetToFlashcardsTable.setId, id));
+
+  const setInformation = await db
+    .select()
+    .from(flashcardSetsTable)
+    .where(eq(flashcardSetsTable.id, id));
+
+  const setData = setInformation[0];
+
+  return { flashcards, setData };
 };
