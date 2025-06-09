@@ -1,15 +1,26 @@
-FROM node:22
+FROM node:22-alpine
+
+RUN apk add --no-cache \
+  python3 \
+  make \
+  g++ \
+  pkgconfig \
+  pixman-dev \
+  cairo-dev \
+  pango-dev \
+  giflib-dev \
+  jpeg-dev \
+  libpng-dev \
+  && ln -sf python3 /usr/bin/python
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN npm install --legacy-peer-deps
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-ENV PORT=3000
-
-EXPOSE 3000
-
-CMD [ "npm", "run", "dev" ]
+CMD ["pnpm", "dev"]

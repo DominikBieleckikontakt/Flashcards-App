@@ -199,9 +199,12 @@ const Flashcards = ({
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-5">
-          <p className="font-light">Please wait, we are proccesing your file</p>
-          <Loader />
+        <div className="flex flex-col items-center justify-center space-y-5 my-36">
+          <Loader styles="border-secondary" />
+          <p className="font-light text-center">
+            Please wait, we are proccesing your file... <br /> It may take a
+            while
+          </p>
         </div>
       )}
       <div className="flex justify-between">
