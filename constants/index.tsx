@@ -12,3 +12,5 @@ export const CATEGORIES = [
 ];
 
 export const PAGE_SIZE = 9;
+
+export const POINTS_THRESHOLDS = [20, 40, 60, 80, 95];

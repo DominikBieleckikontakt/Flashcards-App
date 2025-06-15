@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { supabase } from "./supabaseClient";
+import { Flashcard } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,4 +41,32 @@ export const getProfilePicture = async (userId: string) => {
     .getPublicUrl(userId);
 
   return data.publicUrl;
+};
+
+export const shuffleArray = (array: any[]) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+
+  return newArray;
+};
+
+export const generateAnswers = (
+  flashcardsSet: Flashcard[],
+  currentFlashcardIndex: number
+) => {
+  if (typeof window === "undefined") return [];
+  const correctAnswer = flashcardsSet[currentFlashcardIndex].answer;
+
+  const incorrectAnswers = shuffleArray(
+    flashcardsSet
+      .filter((flashcard) => flashcard.answer !== correctAnswer)
+      .map((flashcard) => flashcard.answer)
+  ).slice(0, 3);
+
+  const answers: string[] = shuffleArray([correctAnswer, ...incorrectAnswers]);
+
+  return answers;
 };

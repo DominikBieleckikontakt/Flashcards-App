@@ -4,6 +4,9 @@ import { getCurrentSession } from "@/actions/cookies";
 import { notFound, redirect } from "next/navigation";
 import { getFlashcardSetById } from "@/lib/server/utils";
 import FlashcardModesList from "@/components/flashcard-set/flashcard-modes-list";
+import FlashcardMode from "@/components/flashcard-set/flashcard-mode";
+import TestMode from "@/components/flashcard-set/test-mode";
+import FlashcardsModes from "@/components/flashcard-set/flashcards-modes";
 
 const MyFlashcardsPage = async ({
   params,
@@ -36,7 +39,10 @@ const MyFlashcardsPage = async ({
         <h2 className="text-4xl -mt-1">{setData.title}</h2>
         <p className="font-light mt-5">{setData.description}</p>
       </div>
-      <FlashcardModesList />
+      <div className="w-full space-y-3">
+        <FlashcardModesList />
+        <FlashcardsModes flashcards={flashcards} />
+      </div>
       <div className="w-full">
         <h3 className="text-xl font-light">
           Number of flashcards (

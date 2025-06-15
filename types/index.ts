@@ -124,3 +124,9 @@ export type FlashcardsList = {
   isFavorite?: boolean;
   numberOfFlashcards?: number;
 };
+
+export type Flashcard = {
+  id: string;
+  question: string;
+  answer: string;
+};

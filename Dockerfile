@@ -1,26 +1,25 @@
-FROM node:22-alpine
-
-RUN apk add --no-cache \
-  python3 \
-  make \
-  g++ \
-  pkgconfig \
-  pixman-dev \
-  cairo-dev \
-  pango-dev \
-  giflib-dev \
-  jpeg-dev \
-  libpng-dev \
-  && ln -sf python3 /usr/bin/python
+# Stage 1: Builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+RUN apk add --no-cache python3 py3-pip make g++
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN npm install -g pnpm@latest-10
 
-RUN pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml* ./
+
+RUN pnpm fetch --prod && pnpm install -r --offline --prod
+
+# Stage 2: Development
+FROM node:20-alpine AS development
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
 
 COPY . .
 
-CMD ["pnpm", "dev"]
+EXPOSE 3000
+
+CMD ["pnpm", "dev", "--turbopack"]
