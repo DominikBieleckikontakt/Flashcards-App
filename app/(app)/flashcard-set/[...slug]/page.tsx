@@ -2,10 +2,8 @@ import React from "react";
 
 import { getCurrentSession } from "@/actions/cookies";
 import { notFound, redirect } from "next/navigation";
-import { getFlashcardSetById } from "@/lib/server/utils";
+import { getFlashcardSetById, trackSetView } from "@/lib/server/utils";
 import FlashcardModesList from "@/components/flashcard-set/flashcard-modes-list";
-import FlashcardMode from "@/components/flashcard-set/flashcard-mode";
-import TestMode from "@/components/flashcard-set/test-mode";
 import FlashcardsModes from "@/components/flashcard-set/flashcards-modes";
 
 const MyFlashcardsPage = async ({
@@ -29,6 +27,8 @@ const MyFlashcardsPage = async ({
   if (flashcards.length === 0) {
     return notFound();
   }
+
+  await trackSetView(user.id, setId);
 
   return (
     <main className="flex justify-center items-center flex-col mx-5 2xl:mx-32 my-12 gap-10">

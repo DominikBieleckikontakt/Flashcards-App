@@ -3,7 +3,7 @@ import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
-import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, ne, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -15,6 +15,7 @@ import {
   flashcardSetToFlashcardsTable,
   favorites,
   flashcardsTable,
+  flashcardViewsTable,
 } from "@/db/schema";
 import { getCurrentSession } from "@/actions/cookies";
 
@@ -112,6 +113,11 @@ export const getFlashcards = async (
       profilePicture: userTable.profilePicture,
     },
     favorites: sql<number>`COUNT(${favorites.flashcardSetId})`.as("favorites"),
+    viewsCount: sql<number>`(
+        SELECT COUNT(*)
+        FROM ${flashcardViewsTable} 
+        WHERE ${flashcardViewsTable.setId} = ${flashcardSetsTable.id}
+        )`.as("viewsCount"),
   });
 
   const whereConditions = [
@@ -153,6 +159,12 @@ export const getFlashcards = async (
             ? asc(sql`favorites`)
             : sort === "A-Z"
             ? asc(flashcardSetsTable.title)
+            : sort === "Z-A"
+            ? desc(flashcardSetsTable.title)
+            : sort === "Newest"
+            ? desc(flashcardSetsTable.createdAt)
+            : sort === "Oldest"
+            ? asc(flashcardSetsTable.createdAt)
             : desc(flashcardSetsTable.title)
         )
         .limit(pageSize)
@@ -246,4 +258,77 @@ export const getFlashcardSetById = async (id: string) => {
   const setData = setInformation[0];
 
   return { flashcards, setData };
+};
+
+export const trackSetView = async (userId: string, setId: string) => {
+  await db.insert(flashcardViewsTable).values({ userId, setId });
+};
+
+export const getAllUserViews = async (userId: string) => {
+  const views = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(flashcardViewsTable)
+    .where(eq(flashcardViewsTable.userId, userId));
+  return views[0]?.count || 0;
+};
+
+export const getAllUserSetsViews = async (userId: string) => {
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(flashcardViewsTable)
+    .innerJoin(
+      flashcardSetsTable,
+      eq(flashcardViewsTable.setId, flashcardSetsTable.id)
+    )
+    .where(
+      and(
+        eq(flashcardSetsTable.userId, userId),
+        ne(flashcardViewsTable.userId, userId)
+      )
+    );
+
+  return result[0]?.count || 0;
+};
+
+export const getCountOfUserSets = async (userId: string) => {
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(flashcardSetsTable)
+    .where(eq(flashcardSetsTable.userId, userId));
+
+  return result?.[0].count || 0;
+};
+
+export const getCountOfAllUserSetsFavorites = async (userId: string) => {
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(favorites)
+    .innerJoin(
+      flashcardSetsTable,
+      eq(flashcardSetsTable.id, favorites.flashcardSetId)
+    )
+    .where(
+      and(eq(flashcardSetsTable.userId, userId), ne(favorites.userId, userId))
+    );
+
+  return result[0]?.count || 0;
+};
+
+export const getCountOfAllUserFavorites = async (userId: string) => {
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
+    .from(favorites)
+    .where(eq(favorites.userId, userId));
+
+  return result[0]?.count || 0;
 };

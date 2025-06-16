@@ -123,6 +123,7 @@ export type FlashcardsList = {
   favorites?: number;
   isFavorite?: boolean;
   numberOfFlashcards?: number;
+  viewsCount?: number;
 };
 
 export type Flashcard = {

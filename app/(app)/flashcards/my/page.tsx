@@ -41,11 +41,11 @@ const MyFlashcardsPage = async ({
     currentPage,
     PAGE_SIZE,
     user.id,
-    true,
+    undefined,
     selectedCategories,
     selectedSort,
     search || "",
-    false
+    true
   );
 
   return (

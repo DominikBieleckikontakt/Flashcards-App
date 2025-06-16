@@ -1,59 +1,75 @@
 "use client";
 import React from "react";
 
-import { FolderSearch2, Globe, Plus, User } from "lucide-react";
-import DashboardCard from "./dashboard-card";
 import { useUserStore } from "@/stores/user";
+import { FlashcardsList } from "@/types";
+import DashboardTable from "../dashboard/dashboard-table";
+import { CalendarPlus, Eye } from "lucide-react";
+import DashboardStats from "../dashboard/dasboard-stats";
 
-const Dashboard = () => {
+const Dashboard = ({
+  lastViewed,
+  lastCreated,
+  allUserViews,
+  allUsersSetsViews,
+  allUserSetsNumber,
+  allUserSetsFavorites,
+  allUserFavorites,
+}: {
+  lastViewed: FlashcardsList[];
+  lastCreated: FlashcardsList[];
+  allUserViews: number;
+  allUsersSetsViews: number;
+  allUserSetsNumber: number;
+  allUserSetsFavorites: number;
+  allUserFavorites: number;
+}) => {
   const user = useUserStore((state) => state.user);
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-light">
+    <div className="space-y-8 w-full">
+      <h1 className="text-4xl font-light text-left w-full">
         Hello{" "}
-        <span className="font-semibold bg-gradient-to-r from-secondary via-secondary/80 to-primary text-transparent bg-clip-text">
+        <span className="font-semibold bg-gradient-to-r from-secondary via-secondary/80 to-primary text-transparent bg-clip-text break-words">
           {user?.username || user?.firstname}!
         </span>{" "}
         Nice to see you again.
       </h1>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <DashboardCard href="/dashboard/edit-profile" icon={<User />}>
-          <h2 className="font-semibold text-xl mb-5">My Profile</h2>
-          <p className="font-light">
-            Manage your profile details, including your name, email, profile
-            picture, and username.
-          </p>
-        </DashboardCard>
-
-        <DashboardCard href="/flashcards/new" icon={<Plus />}>
-          <h2 className="font-semibold text-xl mb-5">Create a Flashcard</h2>
-          <p className="font-light">
-            Add a new flashcard and share your knowledge with others.
-          </p>
-        </DashboardCard>
-
-        <DashboardCard href="#" icon={<FolderSearch2 />}>
-          <h2 className="font-semibold text-xl mb-5">Your Flashcards</h2>
-          <p className="font-light">
-            View and manage your flashcards. Edit, update privacy settings, or
-            delete them anytime.
-          </p>
-        </DashboardCard>
-
-        <DashboardCard href="#" icon={<FolderSearch2 />}>
-          <h2 className="font-semibold text-xl mb-5">Favorites</h2>
-          <p className="font-light">
-            Browse all the flashcards you've marked as favorites.
-          </p>
-        </DashboardCard>
-
-        <DashboardCard href="/flashcards/explore" icon={<Globe />}>
-          <h2 className="font-semibold text-xl mb-5">Explore Flashcards</h2>
-          <p className="font-light">
-            Discover flashcards created by other users and expand your learning.
-          </p>
-        </DashboardCard>
+      <div className="grid 2xl:grid-cols-3 gap-8">
+        <div className="rounded-lg border border-border p-5 2xl:col-span-2 overflow-x-auto">
+          <DashboardTable
+            flashcardsSets={lastViewed}
+            isAuthor
+            icon={
+              <Eye
+                size={40}
+                className="stroke-2 text-dark/50 bg-primary/10 p-2 rounded-lg"
+              />
+            }
+            title="Last viewed"
+          />
+        </div>
+        <div className="rounded-lg border border-border space-y-5 p-5 2xl:row-span-2">
+          <DashboardStats
+            allUserViews={allUserViews}
+            allUsersSetsViews={allUsersSetsViews}
+            allUserSetsNumber={allUserSetsNumber}
+            allUserSetsFavorites={allUserSetsFavorites}
+            allUserFavorites={allUserFavorites}
+          />
+        </div>
+        <div className="rounded-lg border border-border p-5 2xl:col-span-2 overflow-x-auto">
+          <DashboardTable
+            flashcardsSets={lastCreated}
+            icon={
+              <CalendarPlus
+                size={40}
+                className="stroke-2 text-dark/50 bg-primary/10 p-2 rounded-lg"
+              />
+            }
+            title="Last created"
+          />
+        </div>
       </div>
     </div>
   );

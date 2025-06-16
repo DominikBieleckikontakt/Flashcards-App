@@ -1,5 +1,4 @@
 import { InferSelectModel } from "drizzle-orm";
-import { integer } from "drizzle-orm/gel-core";
 import {
   pgTable,
   primaryKey,
@@ -85,6 +84,20 @@ export const favorites = pgTable(
     pk: primaryKey({ columns: [table.userId, table.flashcardSetId] }),
   })
 );
+
+export const flashcardViewsTable = pgTable("flashcard_views", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  setId: uuid("set_id")
+    .notNull()
+    .references(() => flashcardSetsTable.id, { onDelete: "cascade" }),
+  viewedAt: timestamp("viewed_at", {
+    withTimezone: true,
+    mode: "date",
+  }).defaultNow(),
+});
 
 export type User = InferSelectModel<typeof userTable>;
 export type Session = InferSelectModel<typeof sessionTable>;
