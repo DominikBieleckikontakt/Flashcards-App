@@ -10,7 +10,12 @@ import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 const ExploreFlashcardsPage = async ({
   searchParams,
 }: {
-  searchParams: { page?: string; categories?: string[]; sort?: string };
+  searchParams: {
+    page?: string;
+    categories?: string[];
+    sort?: string;
+    search?: string;
+  };
 }) => {
   const { user } = await getCurrentSession();
 
@@ -18,7 +23,7 @@ const ExploreFlashcardsPage = async ({
     redirect("/login");
   }
 
-  const { categories, page, sort } = await searchParams;
+  const { categories, page, sort, search } = await searchParams;
 
   const selectedCategories = Array.isArray(categories)
     ? categories
@@ -32,13 +37,25 @@ const ExploreFlashcardsPage = async ({
 
   if (currentPage < 1) return notFound();
 
+  // const flashcardsSets = await getFlashcards(
+  //   currentPage,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   false,
+  //   selectedCategories,
+  //   selectedSort
+  // );
+
   const flashcardsSets = await getFlashcards(
+    "explore",
     currentPage,
     PAGE_SIZE,
     user.id,
-    false,
-    selectedCategories,
-    selectedSort
+    {
+      categories: selectedCategories,
+      sort: selectedSort,
+      search: search,
+    }
   );
 
   return (

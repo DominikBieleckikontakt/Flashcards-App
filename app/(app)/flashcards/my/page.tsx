@@ -37,15 +37,30 @@ const MyFlashcardsPage = async ({
 
   if (currentPage < 1) return notFound();
 
+  // const flashcardsSets = await getFlashcards(
+  //   currentPage,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   undefined,
+  //   selectedCategories,
+  //   selectedSort,
+  //   search || "",
+  //   false,
+  //   undefined,
+  //   true
+  // );
+
   const flashcardsSets = await getFlashcards(
+    "my-flashcards",
     currentPage,
     PAGE_SIZE,
     user.id,
-    undefined,
-    selectedCategories,
-    selectedSort,
-    search || "",
-    true
+    {
+      categories: selectedCategories,
+      sort: selectedSort,
+      search: search,
+      privacy: "public",
+    }
   );
 
   return (

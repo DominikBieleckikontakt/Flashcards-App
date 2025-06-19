@@ -6,13 +6,11 @@ import Input from "../ui/input";
 import { Download } from "lucide-react";
 import Loader from "../loader";
 import Textarea from "../ui/textarea";
-import { CollectedFlashcardDataType, FlashcardsProps } from "@/types";
-
-type Flashcard = {
-  id: number;
-  question: string;
-  answer: string;
-};
+import {
+  CollectedFlashcardDataType,
+  Flashcard,
+  FlashcardsProps,
+} from "@/types";
 
 const Flashcards = ({
   updateData,
@@ -33,10 +31,8 @@ const Flashcards = ({
   const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const addFlashcard = () => {
-    setFlashcards((prev) => [
-      ...prev,
-      { id: prev.length, question: "", answer: "" },
-    ]);
+    const newId = Date.now();
+    setFlashcards((prev) => [...prev, { id: newId, question: "", answer: "" }]);
   };
 
   const editFlashcard = (id: number, question: string, answer: string) => {
@@ -179,7 +175,7 @@ const Flashcards = ({
               {flashcards.map((flashcard) => (
                 <FlashcardsInput
                   key={flashcard.id}
-                  id={flashcard.id}
+                  id={flashcard.id as number}
                   remove={removeFlashcard}
                   edit={editFlashcard}
                   question={flashcard.question}

@@ -4,6 +4,7 @@ import CheckmarkAnimation from "../ui/checkmark-animation";
 import FailAnimation from "../ui/fail-animation";
 import Button from "../button";
 import Link from "next/link";
+import { SetDataType } from "@/types";
 
 const FlashcardCallback = ({
   isCompleted,
@@ -13,11 +14,12 @@ const FlashcardCallback = ({
   isCompleted: boolean;
   updateCurrentStep: (data: any) => void;
   currentStep: number;
+  setData?: SetDataType;
 }) => {
   return (
-    <div className="">
+    <div className="h-full">
       {isCompleted ? (
-        <div className="flex flex-col items-center lg:flex-row">
+        <div className="flex flex-col items-center lg:flex-row h-full -mt-12">
           <CheckmarkAnimation className="w-64 lg:w-96 mx-auto" />
           <div className="text-center lg:text-left space-y-6">
             <h2 className="text-4xl font-semibold">Success!</h2>
@@ -32,7 +34,7 @@ const FlashcardCallback = ({
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="flex flex-col items-center lg:flex-row">
+          <div className="flex flex-col items-center lg:flex-row  h-full -mt-12">
             <FailAnimation className="w-52 lg:w-72 mx-auto" />
             <div className="text-center lg:text-left space-y-6">
               <h2 className="text-4xl font-semibold">Something went wrong</h2>

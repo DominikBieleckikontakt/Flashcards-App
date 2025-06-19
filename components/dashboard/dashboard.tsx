@@ -3,9 +3,9 @@ import React from "react";
 
 import { useUserStore } from "@/stores/user";
 import { FlashcardsList } from "@/types";
-import DashboardTable from "../dashboard/dashboard-table";
+import DashboardTable from "./dashboard-table";
 import { CalendarPlus, Eye } from "lucide-react";
-import DashboardStats from "../dashboard/dasboard-stats";
+import DashboardStats from "./dasboard-stats";
 
 const Dashboard = ({
   lastViewed,

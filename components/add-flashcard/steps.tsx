@@ -4,20 +4,28 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import FlashcardData from "./flashcard-data-form";
 import Flashcards from "./flashcards";
-import { CollectedFlashcardDataType } from "@/types";
+import { CollectedFlashcardDataType, StepsProps } from "@/types";
 import FlashcardSummary from "./flashcard-summary";
 import FlashcardCallback from "./flashcard-callback";
 
-const Steps = () => {
+const Steps = ({ flashcards, setData }: StepsProps) => {
   const [steps, setSteps] = useState(3);
   const [currentStep, setCurrentStep] = useState(0);
   const [collectedData, setCollectedData] =
-    useState<CollectedFlashcardDataType | null>();
+    useState<CollectedFlashcardDataType | null>({
+      title: setData?.title || "",
+      description: setData?.description || undefined,
+      privacy: (setData?.privacy as "public" | "private") || "public",
+      category: setData?.category || undefined,
+      flashcards: flashcards || undefined,
+    });
   const [isCompleted, setIsCompleted] = useState(false);
-  const [direction, setDirection] = useState<"forward" | "backward">("forward");
+  // const [direction, setDirection] = useState<"forward" | "backward">("forward");
+
+  console.log(flashcards);
 
   const goToStep = (step: number) => {
-    setDirection(step > currentStep ? "forward" : "backward");
+    // setDirection(step > currentStep ? "forward" : "backward");
     setCurrentStep(step);
   };
 
@@ -31,6 +39,7 @@ const Steps = () => {
           updateCurrentStep={goToStep}
           currentData={collectedData}
           currentStep={currentStep}
+          setData={setData}
         />
       );
       break;
@@ -52,6 +61,7 @@ const Steps = () => {
           currentData={collectedData}
           setCompleted={setIsCompleted}
           currentStep={currentStep}
+          setData={setData}
         />
       );
       break;
@@ -61,13 +71,14 @@ const Steps = () => {
           isCompleted={isCompleted}
           updateCurrentStep={goToStep}
           currentStep={currentStep}
+          setData={setData}
         />
       );
       break;
   }
 
   return (
-    <div className="grid gap-16 py-8">
+    <div className="grid gap-16 py-8 h-full">
       <div className="md:w-4/6 md:mx-auto">{content}</div>
       {currentStep !== steps && (
         <div className="flex place-content-center">

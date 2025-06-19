@@ -12,8 +12,8 @@ const NewFlashcardsPage = async () => {
   }
 
   return (
-    <main className="my-8">
-      <div className="rounded-lg p-8">
+    <main className="my-8 h-full">
+      <div className="rounded-lg p-8 h-full">
         <Steps />
       </div>
     </main>

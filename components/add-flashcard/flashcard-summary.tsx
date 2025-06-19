@@ -16,23 +16,40 @@ const FlashcardSummary = ({
   currentData,
   setCompleted,
   currentStep,
+  setData,
 }: FlashcardSummaryProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleFinish = async () => {
     setIsLoading(true);
-    const res = await fetch("/api/flashcards/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: currentData?.title,
-        description: currentData?.description,
-        privacy: currentData?.privacy,
-        category: currentData?.category,
-        flashcards: currentData?.flashcards,
-      }),
-    });
+
+    const res = !setData
+      ? await fetch("/api/flashcards/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: currentData?.title,
+            description: currentData?.description,
+            privacy: currentData?.privacy,
+            category: currentData?.category,
+            flashcards: currentData?.flashcards,
+          }),
+        })
+      : await fetch("/api/flashcards/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: setData?.id,
+            title: currentData?.title,
+            description: currentData?.description,
+            privacy: currentData?.privacy,
+            category: currentData?.category,
+            flashcards: currentData?.flashcards,
+          }),
+        });
 
     if (res.ok) {
       // const data = await res.json();

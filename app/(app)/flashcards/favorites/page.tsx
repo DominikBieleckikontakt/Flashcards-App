@@ -37,15 +37,27 @@ const FavoritesPage = async ({
 
   if (currentPage < 1) return notFound();
 
+  // const flashcardsSets = await getFlashcards(
+  //   currentPage,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   false,
+  //   selectedCategories,
+  //   selectedSort,
+  //   search || "",
+  //   true
+  // );
+
   const flashcardsSets = await getFlashcards(
+    "favorites",
     currentPage,
     PAGE_SIZE,
     user.id,
-    false,
-    selectedCategories,
-    selectedSort,
-    search || "",
-    true
+    {
+      categories: selectedCategories,
+      sort: selectedSort,
+      search: search,
+    }
   );
 
   return (

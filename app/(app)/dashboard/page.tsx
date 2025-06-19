@@ -1,5 +1,5 @@
 import { getCurrentSession } from "@/actions/cookies";
-import Dashboard from "@/components/profile-settings/dashboard";
+import Dashboard from "@/components/dashboard/dashboard";
 import {
   getAllUserSetsViews,
   getAllUserViews,
@@ -7,6 +7,7 @@ import {
   getCountOfAllUserSetsFavorites,
   getCountOfUserSets,
   getFlashcards,
+  getLastViewedSets,
 } from "@/lib/server/utils";
 import { redirect } from "next/navigation";
 
@@ -19,29 +20,23 @@ const SettingsPage = async () => {
 
   const userId = user.id;
 
-  const lastViewed = await getFlashcards(
-    1,
-    4,
-    userId,
-    undefined,
-    undefined,
-    "Newest",
-    undefined,
-    false,
-    false
-  );
+  const lastViewed = await getLastViewedSets(userId, 4);
 
-  const lastCreated = await getFlashcards(
-    1,
-    4,
-    userId,
-    undefined,
-    undefined,
-    "Newest",
-    undefined,
-    false,
-    true
-  );
+  // const lastCreated = await getFlashcards(
+  //   1,
+  //   4,
+  //   userId,
+  //   undefined,
+  //   undefined,
+  //   "Newest",
+  //   undefined,
+  //   false,
+  //   true
+  // );
+
+  const lastCreated = await getFlashcards("my-flashcards", 1, 4, user.id, {
+    sort: "Newest",
+  });
 
   const allUserViews = await getAllUserViews(userId);
   const allUsersSetsViews = await getAllUserSetsViews(userId);

@@ -57,11 +57,7 @@ export type CollectedFlashcardDataType = {
   description?: string;
   privacy: "public" | "private";
   category?: string[];
-  flashcards?: {
-    id: number;
-    question: string;
-    answer: string;
-  }[];
+  flashcards?: Flashcard[];
 };
 
 export type FlashcardsProps = {
@@ -69,6 +65,7 @@ export type FlashcardsProps = {
   updateCurrentStep: (data: any) => void;
   currentData?: CollectedFlashcardDataType | null;
   currentStep?: number;
+  setData?: SetDataType;
 };
 
 export type FlashcardSet = {
@@ -76,11 +73,7 @@ export type FlashcardSet = {
   description?: string;
   privacy: "public" | "private";
   category?: string[];
-  flashcards?: {
-    id: number;
-    question: string;
-    answer: string;
-  }[];
+  flashcards?: Flashcard[];
 };
 
 export type FlashcardsListItemProps = {
@@ -127,7 +120,24 @@ export type FlashcardsList = {
 };
 
 export type Flashcard = {
-  id: string;
+  id: string | number;
   question: string;
   answer: string;
 };
+
+export type SetDataType = {
+  id: string;
+  title: string;
+  description: string | null;
+  privacy: string;
+  category: string[] | null;
+  userId: string;
+  createdAt: Date | null;
+};
+
+export type StepsProps = {
+  flashcards?: Flashcard[];
+  setData?: SetDataType;
+};
+
+export type ViewType = "explore" | "my-flashcards" | "favorites";

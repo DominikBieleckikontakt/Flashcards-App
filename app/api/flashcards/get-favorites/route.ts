@@ -16,15 +16,27 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
+  // const flashcards = await getFlashcards(
+  //   page,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   false,
+  //   categories,
+  //   sort,
+  //   search,
+  //   true
+  // );
+
   const flashcards = await getFlashcards(
+    "favorites",
     page,
     PAGE_SIZE,
     user.id,
-    false,
-    categories,
-    sort,
-    search,
-    true
+    {
+      categories: categories,
+      sort: sort,
+      search: search,
+    }
   );
 
   return NextResponse.json(

@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Star, User } from "lucide-react";
+import { Pen, Star, User } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { FlashcardsListItemProps } from "@/types";
 import { toggleFlashcardSetFavorite } from "@/actions/flashcards";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "next/navigation";
 // import { getProfilePicture } from "@/lib/utils";
 
 const FlashcardsListItem = ({
@@ -29,6 +30,14 @@ const FlashcardsListItem = ({
     numberOfFavorites || 0
   );
 
+  const router = useRouter();
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push("flashcards/" + setId + "/edit");
+  };
+
   const user = useUserStore((state) => state.user)!;
 
   const toggleFavorites = async () => {
@@ -40,7 +49,7 @@ const FlashcardsListItem = ({
           isUserFavorite ? prev - 1 : prev + 1
         );
 
-    await toggleFlashcardSetFavorite(user.id, setId);
+    await toggleFlashcardSetFavorite(user?.id, setId);
   };
 
   return (
@@ -54,8 +63,19 @@ const FlashcardsListItem = ({
         href={`/flashcard-set/${setId}/${title
           .replaceAll(" ", "-")
           .toLocaleLowerCase()}`}
-        className="w-full p-4 h-full space-y-3 flex flex-col justify-between"
+        className="w-full p-4 h-full space-y-3 flex flex-col justify-between relative"
       >
+        {user?.id === authorId && (
+          <button
+            onClick={handleEditClick}
+            className="absolute right-5 cursor-pointer"
+          >
+            <Pen
+              size={16}
+              className="stroke-2 text-dark/70 hover:text-secondary duration-300"
+            />
+          </button>
+        )}
         <div className="space-y-2">
           <div>
             <h3 className="text-lg">{title}</h3>

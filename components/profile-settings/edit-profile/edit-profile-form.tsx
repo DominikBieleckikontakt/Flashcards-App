@@ -114,7 +114,7 @@ const EditProfileForm = () => {
 
   return (
     <form
-      className="max-w-[70rem] lg:min-w-[60rem] mx-auto rounded-lg p-5 border border-border space-y-8"
+      className="max-w-[70rem] 2xl:min-w-[60rem] mx-auto rounded-lg p-5 border border-border space-y-8"
       onSubmit={handleSubmit(onSubmitHandler)}
       noValidate
     >
@@ -130,7 +130,7 @@ const EditProfileForm = () => {
               placeholder="John"
               label="First Name"
               registerProps={register("firstname")}
-              inputClassnames="bg-dark/5"
+              inputClassnames="bg-dark-transparent border border-border focus:border-secondary active:border-secondary"
               styles="w-full md:w-1/2"
               ariaInvalid={Boolean(errors.firstname)}
               errors={errors?.firstname?.message}
@@ -140,7 +140,7 @@ const EditProfileForm = () => {
               placeholder="Smith"
               label="Last Name"
               registerProps={register("lastname")}
-              inputClassnames="bg-dark/5"
+              inputClassnames="bg-dark-transparent border border-border focus:border-secondary active:border-secondary"
               styles="w-full md:w-1/2"
               ariaInvalid={Boolean(errors.lastname)}
               errors={errors?.lastname?.message}
@@ -151,7 +151,7 @@ const EditProfileForm = () => {
             placeholder="Username"
             label="Username"
             registerProps={register("username")}
-            inputClassnames="bg-dark/5"
+            inputClassnames="bg-dark-transparent border border-border focus:border-secondary active:border-secondary"
             ariaInvalid={Boolean(errors.username)}
             errors={errors?.username?.message}
           />
@@ -160,7 +160,7 @@ const EditProfileForm = () => {
             placeholder="Male"
             label="Gender"
             registerProps={register("gender")}
-            inputClassnames="bg-dark/5"
+            inputClassnames="bg-dark-transparent border border-border focus:border-secondary active:border-secondary"
             ariaInvalid={Boolean(errors.gender)}
             errors={errors?.gender?.message}
           />
@@ -186,7 +186,7 @@ const EditProfileForm = () => {
                   label="Profile Picture"
                   styles="w-full md:w-1/2"
                   icon={<Download className="size-5" />}
-                  inputClassnames="bg-dark/5"
+                  inputClassnames="bg-dark-transparent border border-border focus:border-secondary active:border-secondary"
                   placeholder="Upload a profile picture"
                   onChange={(e) => {
                     const file = e.target.files?.[0] ?? null;
@@ -202,7 +202,7 @@ const EditProfileForm = () => {
             <Button
               type="submit"
               disabled={isSubmitting || !isValid}
-              className="disabled:opacity-50 disabled:hover:bg-secondary bg-primary hover:bg-primary/80 w-1/2"
+              className="disabled:opacity-50 disabled:hover:bg-primary bg-secondary hover:bg-secondary/80 w-1/2"
             >
               {isSubmitting || isLoading ? (
                 <Loader
