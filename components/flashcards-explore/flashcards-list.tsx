@@ -60,13 +60,16 @@ const FlashcardsList = ({
       setIsLoading(true);
       const currentParams = new URLSearchParams(searchParams.toString());
 
-      const response = favoritesOnly
-        ? await fetch(
-            `/api/flashcards/get-favorites?${currentParams.toString()}`
-          )
-        : privateOnly
-        ? await fetch(`/api/flashcards/get-my?${currentParams.toString()}`)
-        : await fetch(`/api/flashcards/get?${currentParams.toString()}`);
+      const response = await fetch(
+        `/api/flashcards/get?visibility=${
+          favoritesOnly
+            ? "favorites"
+            : privateOnly
+            ? "my-flashcards"
+            : "explore"
+        }&${currentParams.toString()}`
+      );
+
       const data = await response.json();
       setFlashcardsSets(data.flashcards);
       setTotalPages(Math.ceil(data.flashcards.length / PAGE_SIZE));

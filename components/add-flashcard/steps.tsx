@@ -22,8 +22,6 @@ const Steps = ({ flashcards, setData }: StepsProps) => {
   const [isCompleted, setIsCompleted] = useState(false);
   // const [direction, setDirection] = useState<"forward" | "backward">("forward");
 
-  console.log(flashcards);
-
   const goToStep = (step: number) => {
     // setDirection(step > currentStep ? "forward" : "backward");
     setCurrentStep(step);

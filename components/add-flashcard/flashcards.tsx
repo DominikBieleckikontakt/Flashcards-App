@@ -61,29 +61,41 @@ const Flashcards = ({
         body: formData,
       });
 
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
-
-      let raw = data.flashcards?.trim() ?? "";
-
-      // Clean up AI response for safe parsing
-      if (raw.startsWith('"') && raw.endsWith('"')) {
-        raw = raw.slice(1, -1);
-      }
-
-      raw = raw
-        .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-        .replace(/\\?"/g, '\\"')
-        .replace(/\\"/g, '"');
-
-      const parsed: Flashcard[] = JSON.parse(raw);
 
       setFlashcards((prev) => [
         ...prev,
-        ...parsed.map((fc, i) => ({
+        ...data.flashcards.map((fc: Flashcard) => ({
           ...fc,
-          id: prev.length + i,
+          id: Date.now() + Math.random(),
         })),
       ]);
+
+      // const data = await res.json();
+
+      // let raw = data.flashcards?.trim() ?? "";
+
+      // // Clean up AI response for safe parsing
+      // if (raw.startsWith('"') && raw.endsWith('"')) {
+      //   raw = raw.slice(1, -1);
+      // }
+
+      // raw = raw
+      //   .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+      //   .replace(/\\?"/g, '\\"')
+      //   .replace(/\\"/g, '"');
+
+      // const parsed: Flashcard[] = JSON.parse(raw);
+
+      // setFlashcards((prev) => [
+      //   ...prev,
+      //   ...parsed.map((fc, i) => ({
+      //     ...fc,
+      //     id: prev.length + i,
+      //   })),
+      // ]);
     } catch (error) {
       console.error("Failed to parse AI response", error);
     } finally {

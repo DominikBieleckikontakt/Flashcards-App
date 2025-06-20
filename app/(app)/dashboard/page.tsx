@@ -45,7 +45,7 @@ const SettingsPage = async () => {
   const allUserFavorites = await getCountOfAllUserFavorites(userId);
 
   return (
-    <main className="flex justify-center items-center flex-col mx-5 2xl:mx-32 my-24 gap-10">
+    <main className="flex justify-center items-center flex-col mx-5 2xl:mx-32 my-24 gap-10 h-full">
       <Dashboard
         lastViewed={lastViewed}
         lastCreated={lastCreated}

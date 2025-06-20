@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../ui/input";
 import { Button } from "../ui/button";
 import { ArrowLeftRight, Trash } from "lucide-react";
@@ -20,10 +20,19 @@ const FlashcardsInput = ({
   const [firstSide, setFirstSide] = useState(question);
   const [secondSide, setSecondSide] = useState(answer);
 
+  useEffect(() => {
+    setFirstSide(question);
+    setSecondSide(answer);
+  }, [question, answer]);
+
   const changeSidesHandler = () => {
-    const temp = firstSide;
-    setFirstSide(secondSide);
-    setSecondSide(temp);
+    const newFirst = secondSide;
+    const newSecond = firstSide;
+
+    setFirstSide(newFirst);
+    setSecondSide(newSecond);
+
+    edit(id, newFirst, newSecond);
   };
 
   const removeHandler = () => {
@@ -31,10 +40,12 @@ const FlashcardsInput = ({
   };
 
   const editFirstHandler = (value: string) => {
+    setFirstSide(value);
     edit(id, value, secondSide);
   };
 
   const editSecondHandler = (value: string) => {
+    setSecondSide(value);
     edit(id, firstSide, value);
   };
 

@@ -290,17 +290,20 @@ export const getFlashcards = async (
 
   if (viewType === "explore") {
     const exploreConditions: (SQL | undefined)[] = [
-      eq(flashcardSetsTable.privacy, "public"),
+      and(
+        eq(flashcardSetsTable.privacy, "public"),
+        ne(flashcardSetsTable.userId, userId!)
+      ),
     ];
 
-    if (userId) {
-      exploreConditions.push(
-        and(
-          eq(flashcardSetsTable.privacy, "private"),
-          eq(flashcardSetsTable.userId, userId)
-        )
-      );
-    }
+    // if (userId) {
+    //   exploreConditions.push(
+    //     and(
+    //       eq(flashcardSetsTable.privacy, "private"),
+    //       eq(flashcardSetsTable.userId, userId)
+    //     )
+    //   );
+    // }
 
     visibilityConditions.push(
       or(...filterDefinedConditions(exploreConditions))
@@ -550,7 +553,6 @@ export const getLastViewedSets = async (userId: string, limit: number) => {
     .groupBy(flashcardViewsTable.setId)
     .as("latest_views");
 
-  // Krok 2: Główne zapytanie z unikalnymi zestawami
   const baseQuery = db
     .select({
       set: flashcardSetsTable,
@@ -586,7 +588,6 @@ export const getLastViewedSets = async (userId: string, limit: number) => {
 
   const results = await baseQuery;
 
-  // Reszta kodu pozostaje bez zmian...
   const setIds = results.map((r) => r.set.id);
 
   const [flashcardsCounts, favoriteIds] = await Promise.all([
