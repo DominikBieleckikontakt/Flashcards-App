@@ -3,7 +3,11 @@ import { notFound, redirect } from "next/navigation";
 
 import { getCurrentSession } from "@/actions/cookies";
 import { PAGE_SIZE } from "@/constants";
-import { getFlashcards } from "@/lib/server/utils";
+import {
+  cachedFlashcards,
+  getFlashcards,
+  hasActiveFilters,
+} from "@/lib/server/utils";
 
 import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 
@@ -46,8 +50,26 @@ const ExploreFlashcardsPage = async ({
   //   selectedSort
   // );
 
-  const flashcardsSets = await getFlashcards(
-    "explore",
+  // const flashcardsSets = await getFlashcards(
+  //   "explore",
+  //   currentPage,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   {
+  //     categories: selectedCategories,
+  //     sort: selectedSort,
+  //     search: search,
+  //   }
+  // );
+
+  const hasFilters = hasActiveFilters({
+    categories: selectedCategories,
+    sort: selectedSort,
+    search: search || "",
+  });
+
+  const flashcardsSets = await cachedFlashcards(
+    "favorites",
     currentPage,
     PAGE_SIZE,
     user.id,
@@ -55,6 +77,10 @@ const ExploreFlashcardsPage = async ({
       categories: selectedCategories,
       sort: selectedSort,
       search: search,
+    },
+    {
+      revalidate: hasFilters ? 0 : 3600,
+      tags: hasFilters ? [] : ["flashcards"],
     }
   );
 

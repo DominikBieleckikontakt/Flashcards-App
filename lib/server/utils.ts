@@ -19,6 +19,7 @@ import {
 } from "@/db/schema";
 import { getCurrentSession } from "@/actions/cookies";
 import { ViewType } from "@/types";
+import { unstable_cache as cache } from "next/cache";
 
 export type SessionValidationResult =
   | { session: Session; user: User }
@@ -239,6 +240,18 @@ const filterDefinedConditions = (conditions: (SQL | undefined)[]): SQL[] => {
   return conditions.filter((c): c is SQL => c !== undefined);
 };
 
+export const hasActiveFilters = (filters: {
+  categories?: string[];
+  sort?: string;
+  search?: string;
+}) => {
+  return (
+    (filters.categories && filters.categories.length > 0) ||
+    (filters.sort && filters.sort !== "Most Popular") ||
+    (filters.search && filters.search.trim() !== "")
+  );
+};
+
 export const getFlashcards = async (
   viewType: ViewType,
   page: number,
@@ -249,6 +262,10 @@ export const getFlashcards = async (
     sort?: string;
     search?: string;
     privacy?: "public" | "private";
+  } = {},
+  cacheOptions: {
+    revalidate?: number | false;
+    tags?: string[];
   } = {}
 ) => {
   const { user } = await getCurrentSession();
@@ -384,6 +401,11 @@ export const getFlashcards = async (
     numberOfFlashcards: countsMap.get(s.set.id) || 0,
   }));
 };
+
+export const cachedFlashcards = cache(getFlashcards, ["flashcards-data"], {
+  tags: ["flashcards"],
+  revalidate: 3600,
+});
 
 // Helper functions
 

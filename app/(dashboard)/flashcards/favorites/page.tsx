@@ -2,12 +2,16 @@ import React from "react";
 import { notFound, redirect } from "next/navigation";
 
 import { getCurrentSession } from "@/actions/cookies";
-import { getFlashcards } from "@/lib/server/utils";
+import {
+  cachedFlashcards,
+  getFlashcards,
+  hasActiveFilters,
+} from "@/lib/server/utils";
 import { PAGE_SIZE } from "@/constants";
 
 import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 
-const MyFlashcardsPage = async ({
+const FavoritesPage = async ({
   searchParams,
 }: {
   searchParams: {
@@ -41,17 +45,21 @@ const MyFlashcardsPage = async ({
   //   currentPage,
   //   PAGE_SIZE,
   //   user.id,
-  //   undefined,
+  //   false,
   //   selectedCategories,
   //   selectedSort,
   //   search || "",
-  //   false,
-  //   undefined,
   //   true
   // );
 
-  const flashcardsSets = await getFlashcards(
-    "my-flashcards",
+  const hasFilters = hasActiveFilters({
+    categories: selectedCategories,
+    sort: selectedSort,
+    search: search || "",
+  });
+
+  const flashcardsSets = await cachedFlashcards(
+    "favorites",
     currentPage,
     PAGE_SIZE,
     user.id,
@@ -59,19 +67,18 @@ const MyFlashcardsPage = async ({
       categories: selectedCategories,
       sort: selectedSort,
       search: search,
-      privacy: "public",
+    },
+    {
+      revalidate: hasFilters ? 0 : 3600,
+      tags: hasFilters ? [] : ["flashcards"],
     }
   );
 
   return (
     <main className="flex justify-center items-center">
-      <FlashcardsList
-        initialFlashcards={flashcardsSets}
-        favoritesOnly={false}
-        privateOnly={true}
-      />
+      <FlashcardsList initialFlashcards={flashcardsSets} favoritesOnly={true} />
     </main>
   );
 };
 
-export default MyFlashcardsPage;
+export default FavoritesPage;

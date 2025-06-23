@@ -58,6 +58,7 @@ const FlashcardsList = ({
     // Fetch flashcards based on the current search params
     const fetchFlashcards = async () => {
       setIsLoading(true);
+      setFlashcardsSets([]);
       const currentParams = new URLSearchParams(searchParams.toString());
 
       const response = await fetch(
@@ -67,7 +68,12 @@ const FlashcardsList = ({
             : privateOnly
             ? "my-flashcards"
             : "explore"
-        }&${currentParams.toString()}`
+        }&${currentParams.toString()}`,
+        {
+          next: {
+            revalidate: currentParams ? 0 : 60,
+          },
+        }
       );
 
       const data = await response.json();
@@ -78,8 +84,17 @@ const FlashcardsList = ({
       setIsLoading(false);
     };
 
-    fetchFlashcards();
+    setTimeout(() => {
+      fetchFlashcards();
+    }, 100);
   }, [searchParams, searchQuery]);
+
+  const onDeleteSetHandler = (setId: string) => {
+    const newFlashcardsSets = flashcardsSets.filter(
+      (set) => set.set.id !== setId
+    );
+    setFlashcardsSets(newFlashcardsSets);
+  };
 
   return (
     <div className="w-full mx-5 2xl:mx-32 my-12 grid gap-4">
@@ -136,6 +151,7 @@ const FlashcardsList = ({
                     numberOfFlashcards={numberOfFlashcards || 0}
                     isFavorite={isFavorite}
                     numberOfFavorites={favorites || 0}
+                    onDelete={onDeleteSetHandler}
                   />
                 );
               }

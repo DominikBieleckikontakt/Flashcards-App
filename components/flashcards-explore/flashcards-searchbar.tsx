@@ -27,7 +27,7 @@ const FlashcardsSearchbar = ({
   }, [searchParams]);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleLoading(true);
+    // toggleLoading(true);
     const query = e.target.value.trim();
     changeQuery(query);
 
@@ -42,7 +42,7 @@ const FlashcardsSearchbar = ({
       "",
       `/flashcards/explore?${params.toString()}`
     );
-    toggleLoading(false);
+    // toggleLoading(false);
   };
 
   return (

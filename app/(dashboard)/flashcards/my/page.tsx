@@ -2,12 +2,16 @@ import React from "react";
 import { notFound, redirect } from "next/navigation";
 
 import { getCurrentSession } from "@/actions/cookies";
-import { getFlashcards } from "@/lib/server/utils";
+import {
+  cachedFlashcards,
+  getFlashcards,
+  hasActiveFilters,
+} from "@/lib/server/utils";
 import { PAGE_SIZE } from "@/constants";
 
 import FlashcardsList from "@/components/flashcards-explore/flashcards-list";
 
-const FavoritesPage = async ({
+const MyFlashcardsPage = async ({
   searchParams,
 }: {
   searchParams: {
@@ -41,14 +45,35 @@ const FavoritesPage = async ({
   //   currentPage,
   //   PAGE_SIZE,
   //   user.id,
-  //   false,
+  //   undefined,
   //   selectedCategories,
   //   selectedSort,
   //   search || "",
+  //   false,
+  //   undefined,
   //   true
   // );
 
-  const flashcardsSets = await getFlashcards(
+  // const flashcardsSets = await getFlashcards(
+  //   "my-flashcards",
+  //   currentPage,
+  //   PAGE_SIZE,
+  //   user.id,
+  //   {
+  //     categories: selectedCategories,
+  //     sort: selectedSort,
+  //     search: search,
+  //     privacy: "public",
+  //   }
+  // );
+
+  const hasFilters = hasActiveFilters({
+    categories: selectedCategories,
+    sort: selectedSort,
+    search: search || "",
+  });
+
+  const flashcardsSets = await cachedFlashcards(
     "favorites",
     currentPage,
     PAGE_SIZE,
@@ -57,14 +82,22 @@ const FavoritesPage = async ({
       categories: selectedCategories,
       sort: selectedSort,
       search: search,
+    },
+    {
+      revalidate: hasFilters ? 0 : 3600,
+      tags: hasFilters ? [] : ["flashcards"],
     }
   );
 
   return (
     <main className="flex justify-center items-center">
-      <FlashcardsList initialFlashcards={flashcardsSets} favoritesOnly={true} />
+      <FlashcardsList
+        initialFlashcards={flashcardsSets}
+        favoritesOnly={false}
+        privateOnly={true}
+      />
     </main>
   );
 };
 
-export default FavoritesPage;
+export default MyFlashcardsPage;

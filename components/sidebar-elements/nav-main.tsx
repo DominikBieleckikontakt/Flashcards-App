@@ -42,6 +42,7 @@ export function NavMain({
                     className={`${
                       isActive(item.url) ? "bg-secondary/10" : ""
                     } cursor-pointer flex items-center justify-start text-black/80`}
+                    aria-label={item.name}
                   >
                     {item.icon && item.icon}
                     <span>{item.name}</span>

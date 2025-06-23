@@ -11,6 +11,7 @@ import {
 } from "@/db/schema";
 
 import { FlashcardSet } from "@/types";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
   const token = (await cookies()).get("session")?.value ?? null;
@@ -103,6 +104,8 @@ export async function POST(req: Request) {
       flashcardId: flashcard.id,
     });
   }
+
+  revalidateTag("flashcards");
 
   return NextResponse.json(
     { message: "Flashcard set created successfully" },

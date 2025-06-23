@@ -87,7 +87,6 @@ const DashboardStats = ({
           title="Number of your favorites"
           value={allUserFavorites}
           icon={<StarHalf className="stroke-1 rounded-full" size={30} />}
-          isTimes
         />
       </div>
     </>

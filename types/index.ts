@@ -89,6 +89,7 @@ export type FlashcardsListItemProps = {
   profilePicture: string | null;
   isFavorite?: boolean;
   numberOfFavorites?: number;
+  onDelete: (setId: string) => void;
 };
 
 export type FlashcardSetProp = {
