@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import Navbar from "@/components/landing-page/navbar";
 
 export const metadata: Metadata = {
   title: "NextFlash",
@@ -14,7 +15,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

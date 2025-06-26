@@ -132,3 +132,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.text-stroke {
+  -webkit-text-stroke: 2px var(--color-secondary);
+  text-stroke: 2px var(--color-secondary);
+}
