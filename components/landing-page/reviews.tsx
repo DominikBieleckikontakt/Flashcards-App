@@ -1,12 +1,21 @@
-import { Quote } from "lucide-react";
+"use client";
 import React from "react";
+
+import { Quote } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Reviews = () => {
   return (
     <div className="my-36 space-y-5" id="reviews">
-      <div className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10">
+      <motion.div
+        className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+      >
         Master Learning Effortlessly
-      </div>
+      </motion.div>
       <div className="space-y-8 xl:space-y-10">
         <div className="space-y-5">
           <h2 className="text-3xl md:text-5xl font-semibold">
@@ -18,7 +27,13 @@ const Reviews = () => {
             Feedback, and the Successes That Inspire Us All
           </div>
         </div>
-        <div className="flex gap-8 max-xl:flex-col">
+        <motion.div
+          className="flex gap-8 max-xl:flex-col"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
           <div className="xl:w-1/2 relative xl:flex-1 bg-[#f8f8f8] rounded-lg p-5 space-y-5 before:content-[''] before:bg-gradient-to-br before:from-secondary before:via-transparent before:to-transparent before:-z-10 before:absolute before:rounded-lg before:inset-0 before:-top-[1px] before:-left-[1px]">
             <Quote className="fill-dark/30 text-dark/30 stroke-dark/30" />
             <p className="text-dark/80 font-light italic">
@@ -45,7 +60,7 @@ const Reviews = () => {
               <p className="text-dark/80 text-sm">Language Learner & Teacher</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

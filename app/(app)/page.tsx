@@ -3,6 +3,7 @@ import React from "react";
 import Features from "../../components/landing-page/features";
 import AboutUs from "@/components/landing-page/about";
 import Reviews from "@/components/landing-page/reviews";
+import CallToAction from "@/components/landing-page/cta";
 
 const page = () => {
   return (
@@ -10,6 +11,7 @@ const page = () => {
       <Hero />
       <Features />
       <AboutUs />
+      <CallToAction />
       <Reviews />
     </main>
   );

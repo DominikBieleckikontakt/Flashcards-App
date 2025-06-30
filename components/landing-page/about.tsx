@@ -2,7 +2,8 @@
 import React from "react";
 
 import { useLottie } from "lottie-react";
-import { Bolt } from "lucide-react";
+import { motion } from "framer-motion";
+
 import animationData from "@/lottie/learning.json";
 
 const AboutUs = () => {
@@ -15,9 +16,15 @@ const AboutUs = () => {
 
   return (
     <div className="my-36 space-y-5" id="about">
-      <div className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10">
+      <motion.div
+        className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+      >
         Master Learning Effortlessly
-      </div>
+      </motion.div>
       <div className="flex flex-col xl:flex-row gap-8 xl:gap-20">
         <div className="space-y-5 xl:w-1/2 xl:flex-1">
           <h2 className="text-3xl md:text-5xl font-semibold">
@@ -67,9 +74,18 @@ const AboutUs = () => {
             </ol>
           </div>
         </div>
-        <div className="xl:w-1/2 min-h-full xl:flex-1 border border-border rounded-lg flex justify-center items-center hover:border-secondary duration-300">
+        <motion.div
+          className="xl:w-1/2 min-h-full xl:flex-1 border border-border rounded-lg flex justify-center items-center hover:border-secondary duration-300"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 0.7,
+            ease: "linear",
+          }}
+          viewport={{ once: true }}
+        >
           <div className="max-w-3/4">{View}</div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

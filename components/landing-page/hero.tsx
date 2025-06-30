@@ -1,5 +1,8 @@
+"use client";
 import Image from "next/image";
 import React from "react";
+
+import { motion } from "framer-motion";
 
 import dashboardMobileScreen from "@/public/img/dashboard_mobile_screen.png";
 import dashboardScreen from "@/public/img/dashboard_screenshot.png";
@@ -18,9 +21,14 @@ const Hero = () => {
               [mask-size:100%_100%] pointer-events-none"
       />
       <div className="py-16 pb-16 flex justify-center items-center flex-col gap-2">
-        <div className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10">
+        <motion.div
+          className="text-sm border border-secondary w-fit p-2 font-base text-dark/80 rounded-4xl z-10"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
           Master Learning Effortlessly
-        </div>
+        </motion.div>
         <div className="lg:mx-24 2xl:mx-64 z-10">
           <h1 className="text-4xl sm:text-5xl md:text-5xl 2xl:text-6xl font-semibold text-center text-pretty z-10">
             Unlock Knowledge with{" "}
@@ -43,7 +51,12 @@ const Hero = () => {
           </p>
         </div>
       </div>
-      <div className="relative w-full h-full max-h-96">
+      <motion.div
+        className="relative w-full h-full max-h-96"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <Image
           src={dashboardScreen}
           alt="dashboard"
@@ -55,7 +68,7 @@ const Hero = () => {
           className="w-full h-full object-cover z-10 rounded-2xl border border-border/50 lg:hidden"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-light via-light/50 to-transparent rounded-2xl z-20 pointer-events-none" />
-      </div>
+      </motion.div>
     </div>
   );
 };
