@@ -32,9 +32,9 @@ const Navbar = () => {
               transition={{ duration: 0.3 }}
             >
               <ul className="flex flex-col gap-4 text-dark/80 w-64 bg-light rounded-lg shadow-lg p-8 ">
-                <Link href="#">About us</Link>
-                <Link href="#">Features</Link>
-                <Link href="#">Contact</Link>
+                <Link href="#features">Features</Link>
+                <Link href="#about">About us</Link>
+                <Link href="#reviews">Reviews</Link>
               </ul>
             </motion.div>
           )}
@@ -53,15 +53,21 @@ const Navbar = () => {
       </div>
       <div className="hidden lg:block">
         <ul className="flex gap-16 text-dark/80">
-          <Link href="#">About us</Link>
-          <Link href="#">Features</Link>
-          <Link href="#">Contact</Link>
+          <Link href="#features" className="hover:text-secondary duration-300">
+            Features
+          </Link>
+          <Link href="#about" className="hover:text-secondary duration-300">
+            About us
+          </Link>
+          <Link href="#reviews" className="hover:text-secondary duration-300">
+            Reviews
+          </Link>
         </ul>
       </div>
       <div className="hidden lg:block">
         <Link
           href="/dashboard"
-          className="w-full h-full flex items-center px-8 py-3 text-sm text-light cursor-pointer hover:bg-secondary/95 bg-secondary rounded-4xl"
+          className="w-full h-full flex items-center px-8 py-3 text-sm text-light border-2 border-secondary cursor-pointer font-semibold hover:bg-transparent hover:text-secondary bg-secondary rounded-4xl duration-300"
         >
           Get started
         </Link>
