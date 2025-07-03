@@ -60,8 +60,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=""
 GITHUB_TOKEN=""
 ```
 
-⚠️ Important: These values are provided for development purposes. Make sure to replace them with your own credentials for production and avoid exposing sensitive information in public repositories.
-
 ### 4️⃣ Run the app locally
 
 ```bash
