@@ -34,9 +34,15 @@ const SettingsPage = async () => {
   //   true
   // );
 
-  const lastCreated = await getFlashcards("my-flashcards", 1, 4, user.id, {
-    sort: "Newest",
-  });
+  const { flashcards: lastCreated } = await getFlashcards(
+    "my-flashcards",
+    1,
+    4,
+    user.id,
+    {
+      sort: "Newest",
+    }
+  );
 
   const allUserViews = await getAllUserViews(userId);
   const allUsersSetsViews = await getAllUserSetsViews(userId);

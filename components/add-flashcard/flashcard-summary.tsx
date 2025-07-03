@@ -110,9 +110,19 @@ const FlashcardSummary = ({
             <div className="mt-5">
               <p className="font-light">Flashcards:</p>
               {currentData!.flashcards!.map((flashcard, index) => (
-                <p key={index}>
-                  {flashcard.question} {`->`} {flashcard.answer}
-                </p>
+                <div key={index} className="space-y-5">
+                  <div className="flex w-full sm:flex-row sm:gap-10 flex-col gap-3">
+                    <div className="border border-border rounded-lg p-3 px-5 w-full text-sm">
+                      {flashcard.question}
+                    </div>
+                    <div className="border border-border rounded-lg p-3 px-5 w-full text-sm">
+                      {flashcard.answer}
+                    </div>
+                  </div>
+                  {index !== currentData!.flashcards!.length - 1 && (
+                    <hr className="bg-dark/5 border-none h-[0.1px]" />
+                  )}
+                </div>
               ))}
             </div>
           </div>

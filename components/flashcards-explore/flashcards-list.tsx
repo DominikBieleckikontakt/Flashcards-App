@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 
 import FlashcardsListItem from "./flashcards-list-item";
 
@@ -22,26 +22,29 @@ type FlashcardsListProps = {
   initialFlashcards: FlashcardsListType[];
   favoritesOnly?: boolean;
   privateOnly?: boolean;
+  totalCount: number;
 };
 
 const FlashcardsList = ({
   initialFlashcards,
   favoritesOnly,
   privateOnly,
+  totalCount,
 }: FlashcardsListProps) => {
   const searchParams = useSearchParams();
 
   const [flashcardsSets, setFlashcardsSets] =
     useState<FlashcardsListType[]>(initialFlashcards);
+  const [count, setCount] = useState<number>(totalCount);
   const [currentPage, setCurrentPage] = useState<number>(
     parseInt(searchParams.get("page") || "1", 10)
   );
   const [totalPages, setTotalPages] = useState<number>(
-    Math.ceil(initialFlashcards.length / PAGE_SIZE)
+    Math.ceil(totalCount / PAGE_SIZE)
   );
   const [hasNextPage, setHasNextPage] = useState<boolean>(
     parseInt(searchParams.get("page") || "1", 10) <
-      Math.ceil(initialFlashcards.length / PAGE_SIZE)
+      Math.ceil(totalCount / PAGE_SIZE)
   );
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(
     currentPage > 1
@@ -50,6 +53,8 @@ const FlashcardsList = ({
     searchParams.get("search") || ""
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const page = parseInt(searchParams.get("page") || "1", 10);
@@ -78,8 +83,9 @@ const FlashcardsList = ({
 
       const data = await response.json();
       setFlashcardsSets(data.flashcards);
-      setTotalPages(Math.ceil(data.flashcards.length / PAGE_SIZE));
-      setHasNextPage(page < Math.ceil(data.flashcards.length / PAGE_SIZE));
+      setCount(data.totalCount);
+      setTotalPages(Math.ceil(data.totalCount / PAGE_SIZE));
+      setHasNextPage(page < Math.ceil(data.totalCount / PAGE_SIZE));
       setHasPreviousPage(page > 1);
       setIsLoading(false);
     };
@@ -161,7 +167,13 @@ const FlashcardsList = ({
             <div className="space-x-5 flex">
               {currentPage !== 1 && currentPage !== 2 && (
                 <Link
-                  href={`/flashcards/explore?page=1`}
+                  href={{
+                    pathname,
+                    query: {
+                      ...Object.fromEntries(searchParams.entries()),
+                      page: 1,
+                    },
+                  }}
                   className="bg-secondary hover:bg-secondary/90 p-2 text-white rounded-md"
                 >
                   <ArrowBigLeftDash />
@@ -169,9 +181,13 @@ const FlashcardsList = ({
               )}
               {hasPreviousPage && (
                 <Link
-                  href={`/flashcards/explore/?page=${
-                    currentPage ? currentPage - 1 : 1
-                  }`}
+                  href={{
+                    pathname,
+                    query: {
+                      ...Object.fromEntries(searchParams.entries()),
+                      page: currentPage - 1,
+                    },
+                  }}
                   className="bg-secondary hover:bg-secondary/90 p-2 text-white rounded-md"
                 >
                   <ArrowLeft />
@@ -181,9 +197,13 @@ const FlashcardsList = ({
             <div className="space-x-5 flex">
               {currentPage !== totalPages && hasNextPage && (
                 <Link
-                  href={`/flashcards/explore/?page=${
-                    currentPage ? currentPage + 1 : 2
-                  }`}
+                  href={{
+                    pathname,
+                    query: {
+                      ...Object.fromEntries(searchParams.entries()),
+                      page: currentPage + 1,
+                    },
+                  }}
                   className="bg-secondary hover:bg-secondary/90 p-2 text-white rounded-md"
                 >
                   <ArrowRight />
@@ -194,7 +214,13 @@ const FlashcardsList = ({
                 currentPage !== totalPages &&
                 hasNextPage && (
                   <Link
-                    href={`/flashcards/explore/?page=${totalPages}`}
+                    href={{
+                      pathname,
+                      query: {
+                        ...Object.fromEntries(searchParams.entries()),
+                        page: totalPages,
+                      },
+                    }}
                     className="bg-secondary hover:bg-secondary/90 p-2 text-white rounded-md"
                   >
                     <ArrowBigRightDash />

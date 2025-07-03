@@ -181,7 +181,7 @@ const FlashcardsListItem = ({
             </div>
 
             <div className="flex items-center gap-1">
-              <AnimatePresence mode="wait">
+              {/* <AnimatePresence mode="wait">
                 {numberOfFavoritesState > 0 && (
                   <motion.p
                     key={numberOfFavoritesState}
@@ -194,7 +194,7 @@ const FlashcardsListItem = ({
                     {numberOfFavoritesState}
                   </motion.p>
                 )}
-              </AnimatePresence>
+              </AnimatePresence> */}
               <button
                 onClick={(e) => {
                   e.preventDefault();

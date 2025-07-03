@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const flashcards = await getFlashcards(
+  const { flashcards, totalCount } = await getFlashcards(
     visibilityType,
     page,
     PAGE_SIZE,
@@ -34,6 +34,7 @@ export async function GET(req: Request) {
   return NextResponse.json(
     {
       flashcards,
+      totalCount,
     },
     { status: 200 }
   );

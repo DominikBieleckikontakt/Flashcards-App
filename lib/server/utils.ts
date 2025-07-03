@@ -272,7 +272,7 @@ export const getFlashcards = async (
   const userId = currentUserId || user?.id;
 
   if (viewType === "my-flashcards" && !userId) {
-    return [];
+    return { flashcards: [], totalCount: 0 };
   }
 
   const offset = (page - 1) * pageSize;
@@ -395,11 +395,23 @@ export const getFlashcards = async (
   const countsMap = new Map(flashcardCounts.map((fc) => [fc.setId, fc.count]));
   const favoriteSet = new Set(favoriteIds.map((f) => f.flashcardSetId));
 
-  return flashcardsSets.map((s) => ({
-    ...s,
-    isFavorite: favoriteSet.has(s.set.id),
-    numberOfFlashcards: countsMap.get(s.set.id) || 0,
-  }));
+  const countQuery = db
+    .select({ count: sql<number>`COUNT(*)`.as("count") })
+    .from(flashcardSetsTable)
+    .innerJoin(userTable, eq(flashcardSetsTable.userId, userTable.id))
+    .leftJoin(favorites, eq(favorites.flashcardSetId, flashcardSetsTable.id))
+    .where(allConditions.length > 0 ? and(...allConditions) : undefined);
+
+  const [{ count: totalCount }] = await countQuery;
+
+  return {
+    flashcards: flashcardsSets.map((s) => ({
+      ...s,
+      isFavorite: favoriteSet.has(s.set.id),
+      numberOfFlashcards: countsMap.get(s.set.id) || 0,
+    })),
+    totalCount,
+  };
 };
 
 export const cachedFlashcards = cache(getFlashcards, ["flashcards-data"], {

@@ -73,7 +73,7 @@ const MyFlashcardsPage = async ({
     search: search || "",
   });
 
-  const flashcardsSets = await cachedFlashcards(
+  const { flashcards, totalCount } = await cachedFlashcards(
     "favorites",
     currentPage,
     PAGE_SIZE,
@@ -92,7 +92,8 @@ const MyFlashcardsPage = async ({
   return (
     <main className="flex justify-center items-center">
       <FlashcardsList
-        initialFlashcards={flashcardsSets}
+        initialFlashcards={flashcards}
+        totalCount={totalCount}
         favoritesOnly={false}
         privateOnly={true}
       />

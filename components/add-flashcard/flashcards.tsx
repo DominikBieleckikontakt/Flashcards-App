@@ -230,8 +230,9 @@ const Flashcards = ({
             disabled={
               isLoading ||
               flashcards.length === 0 ||
-              flashcards[0].question === "" ||
-              flashcards[0].answer === ""
+              (flashcards.length < 2 &&
+                (flashcards[0].answer.trim() === "" ||
+                  flashcards[0].question.trim() === ""))
             }
             className="bg-secondary cursor-pointer hover:bg-secondary/90 disabled:opacity-50 disabled:hover:bg-secondary px-8"
             onClick={() => changeStep("next")}

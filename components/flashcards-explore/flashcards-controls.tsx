@@ -54,7 +54,7 @@ const FlashcardsControls = ({
     const params = new URLSearchParams(searchParams.toString());
     params.delete("sort");
     params.append("sort", sort);
-    router.push(`/flashcards/explore?${params.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   const onSelectCategory = (category: string) => {
@@ -69,7 +69,7 @@ const FlashcardsControls = ({
     const params = new URLSearchParams(searchParams.toString());
     params.delete("categories");
     updatedCategories.forEach((cat) => params.append("categories", cat));
-    router.push(`/flashcards/explore?${params.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   return (
@@ -131,17 +131,20 @@ const FlashcardsControls = ({
               onClose={() => setIsSortingVisible(false)}
               buttonRef={buttonSortRef}
             >
-              <RadioGroup defaultValue={selectedSort || "Most Popular"}>
+              <RadioGroup
+                value={selectedSort || "Most Popular"}
+                onValueChange={(sort) => {
+                  if (sort) {
+                    onSelectSort(sort);
+                  }
+                }}
+              >
                 <div className="space-y-2">
                   <h3 className="font-semibold">By name</h3>
                   <div className="space-y-1">
                     {sortByName.map((sortRule, index) => (
                       <div className="flex items-center gap-1" key={index}>
-                        <RadioGroupItem
-                          value={sortRule}
-                          id={`${sortRule}`}
-                          onClick={() => onSelectSort(sortRule)}
-                        />
+                        <RadioGroupItem value={sortRule} id={`${sortRule}`} />
                         <label htmlFor={`${sortRule}`} className="text-sm">
                           {sortRule}
                         </label>
@@ -154,11 +157,7 @@ const FlashcardsControls = ({
                   <div className="space-y-1">
                     {sortByPopularity.map((sortRule, index) => (
                       <div className="flex items-center gap-1" key={index}>
-                        <RadioGroupItem
-                          value={sortRule}
-                          id={`${sortRule}`}
-                          onClick={() => onSelectSort(sortRule)}
-                        />
+                        <RadioGroupItem value={sortRule} id={`${sortRule}`} />
                         <label htmlFor={`${sortRule}`} className="text-sm">
                           {sortRule}
                         </label>

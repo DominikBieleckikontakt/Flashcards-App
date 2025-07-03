@@ -63,7 +63,7 @@ export default function SelectDropdown({
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-full rounded-md bg-white ring-1 ringborder ring-opacity-5 p-2 space-y-2 overflow-auto max-h-36">
+        <div className="absolute z-10 mt-2 w-full rounded-md bg-white ring-1 ring-border p-2 space-y-2 overflow-auto max-h-36">
           {entries.map((entry: string) => (
             <label key={entry} className="flex items-center space-x-2">
               <input
