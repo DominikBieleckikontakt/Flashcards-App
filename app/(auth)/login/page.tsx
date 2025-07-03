@@ -7,23 +7,16 @@ import LoginForm from "@/components/login-page/login-form";
 
 const LoginPage = () => {
   return (
-    <>
-      <div className="">
-        <Image
-          src={background}
-          alt="background"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute size-full bg-black/50 backdrop-blur-sm left-0 top-0"></div>
+    <main className="h-[100svh] flex justify-center items-center px-8">
+      {/* <div className="grid lg:grid-cols-2 gap-24"> */}
+      <div className="w-full flex-1 flex justify-center max-xl:hidden">
+        <LoginText />
       </div>
-      <main className="h-[100svh] flex justify-center items-center px-8 bg-primary">
-        <div className="grid lg:grid-cols-2 gap-24">
-          <LoginText />
-          <LoginForm />
-        </div>
-      </main>
-    </>
+      <div className="w-full flex-1 flex justify-center h-full items-center xl:shadow-xl xl:border-l xl:border-border">
+        <LoginForm />
+      </div>
+      {/* </div> */}
+    </main>
   );
 };
 

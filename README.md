@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlashcardApp
 
-## Getting Started
+FlashcardApp is a web application that allows users to create, edit, browse, and test themselves with flashcards. You can view flashcards created by other users, mark them as favorites, and switch between regular learning mode and test mode.
 
-First, run the development server:
+The app is built using **Next.js**, **Supabase**, **PostgreSQL**, **Drizzle ORM**, **TailwindCSS**, **shadcn/ui**, **Zustand**, and integrates AI features.
+
+👉 Live demo: [https://flashcards-5iy80fzeh-dominikbieleckis-projects.vercel.app](https://flashcards-5iy80fzeh-dominikbieleckis-projects.vercel.app)
+
+---
+
+## Features
+
+✅ Create, edit, and delete your own flashcards  
+✅ Browse flashcards created by other users  
+✅ Add flashcards to favorites  
+✅ Use regular study mode or test mode  
+✅ Modern UI with TailwindCSS and shadcn/ui  
+✅ Persistent state management with Zustand  
+✅ AI-powered flashcard generation (optional)
+
+---
+
+## Tech stack
+
+- **Next.js**
+- **TailwindCSS**
+- **shadcn/ui**
+- **Supabase**
+- **PostgreSQL**
+- **Drizzle ORM**
+- **Zustand**
+- **AI integrations**
+
+---
+
+## Getting started
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/your-username/FlashcardApp.git
+cd FlashcardApp
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Create your environment variables
+
+Create a .env.local file in the root directory and add the following:
+
+```bash
+DATABASE_URL=""
+DATABASE_PASSWORD=""
+NEXT_PUBLIC_SUPABASE_URL=""
+NEXT_PUBLIC_SUPABASE_ANON_KEY=""
+GITHUB_TOKEN=""
+```
+
+⚠️ Important: These values are provided for development purposes. Make sure to replace them with your own credentials for production and avoid exposing sensitive information in public repositories.
+
+### 4️⃣ Run the app locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+License
+This project is licensed under the MIT License.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notes
 
-## Learn More
+- You need a Supabase project and PostgreSQL database to run this app.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The application is deployed using Vercel.

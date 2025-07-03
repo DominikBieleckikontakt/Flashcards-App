@@ -76,13 +76,13 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="text-light bg-white/10 backdrop-blur-sm w-full h-full rounded-3xl p-8 flex flex-col justify-between space-y-16">
+    <div className="text-dark/80 max-w-[600px] w-full h-full rounded-3xl p-8 flex flex-col max-h-fit justify-between space-y-8">
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         noValidate
         className="space-y-8"
       >
-        <div className="flex justify-between gap-8">
+        <div className="xl:flex justify-between max-xl:space-y-8 gap-8">
           <Input
             type="text"
             label="First name"
@@ -91,8 +91,8 @@ const SignupForm = () => {
             registerProps={register("firstname")}
             ariaInvalid={Boolean(errors.firstname)}
             errors={errors?.firstname?.message}
-            styles="w-1/2"
-            inputClassnames="bg-white/10"
+            styles="xl:w-1/2"
+            inputClassnames="border border-border"
           />
           <Input
             type="text"
@@ -102,8 +102,8 @@ const SignupForm = () => {
             registerProps={register("lastname")}
             ariaInvalid={Boolean(errors.lastname)}
             errors={errors?.lastname?.message}
-            styles="w-1/2"
-            inputClassnames="bg-white/10"
+            styles="xl:w-1/2"
+            inputClassnames="border border-border"
           />
         </div>
 
@@ -115,7 +115,7 @@ const SignupForm = () => {
           registerProps={register("username")}
           ariaInvalid={Boolean(errors.username)}
           errors={errors?.username?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <Input
@@ -126,7 +126,7 @@ const SignupForm = () => {
           registerProps={register("email")}
           ariaInvalid={Boolean(errors.email)}
           errors={errors?.email?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <Input
@@ -137,7 +137,7 @@ const SignupForm = () => {
           registerProps={register("password")}
           ariaInvalid={Boolean(errors.password)}
           errors={errors?.password?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <Input
@@ -148,7 +148,7 @@ const SignupForm = () => {
           registerProps={register("confirmPassword")}
           ariaInvalid={Boolean(errors.confirmPassword)}
           errors={errors?.confirmPassword?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <div className="w-full text-right">
@@ -172,7 +172,7 @@ const SignupForm = () => {
           </p>
         </div>
       </form>
-      <div>
+      <div className="mb-5">
         <p className="text-center">
           You don't have an account?{" "}
           <Link

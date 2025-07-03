@@ -54,7 +54,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="text-light bg-white/10 backdrop-blur-sm w-full h-full rounded-3xl p-8 flex flex-col justify-between">
+    <div className="text-dark/80 w-full h-full rounded-3xl p-8 flex flex-col max-h-fit max-w-[600px]">
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         noValidate
@@ -68,7 +68,7 @@ const LoginForm = () => {
           registerProps={register("email")}
           ariaInvalid={Boolean(errors.email)}
           errors={errors?.email?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <Input
@@ -79,7 +79,7 @@ const LoginForm = () => {
           registerProps={register("password")}
           ariaInvalid={Boolean(errors.password)}
           errors={errors?.password?.message}
-          inputClassnames="bg-white/10"
+          inputClassnames="border border-border"
         />
 
         <div className="w-full text-right">
